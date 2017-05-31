@@ -7,7 +7,7 @@ from threading import Thread
 import datetime
 import time
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -22,7 +22,6 @@ def updateDatabase():
 
     today = datetime.datetime.now()
 
-    # This will break in 983 years
     fightDate = datetime.datetime.strptime(fights[0].date[0:-1], '%m-%d-%Y')
 
 
