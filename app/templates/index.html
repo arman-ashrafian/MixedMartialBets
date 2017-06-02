@@ -11,7 +11,7 @@
   <style>
 
   .page-header {
-    background-color: FireBrick;
+    background-color: firebrick;
     border-width: 0;
     color:white;
 
@@ -21,52 +21,67 @@
   }
 
   .row {
-    background-color: grey;
+    background-color: black;
     height:700px;
   }
   body {
-    background-color: FireBrick;
+    background-color: firebrick;
   }
   </style>
 
-</head>
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">MMA BETS</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
-  </div>
-</nav>
+  {% block addStyle %}{%endblock%}
 
-<div class="text-center page-header">
-  <h1>MMA BETS</h1>
-  <p>Test out your MMA betting strategy!</p>
-</div>
 </head>
 
 <body>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-2">
-      <h3>You're a loser</h3>
-    </div>
-    <div class="col-sm-8 text-center" style="background-color:black; height:700px;">
-     
-    </div>
-    <div class="col-sm-2">
-      <h3>You Suck</h3>
-    </div>
-  </div>
-</div>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/index">MMA BETS</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li {% block homeActive %}class="active"{% endblock %}>
+          <a href="/index">Home</a></li>
+        <li {% block page1Actibve %}{% endblock %}>
+          <a href="#">Profile</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+
+      {% if not logged_in %}
+        <li {% block loginActive %}{% endblock %}>
+            <a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      {% else %}
+        <li><a>{{user_name}}</a></li>
+        <li> <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      {% endif %}
+        <li {% block signUpActive %}{% endblock %}>
+          <a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      </ul>
+    </div>
+  </nav>
+
+{% block page_content %}
+
+  <div class="container-fluid">
+    <div class="text-center page-header">
+      <h1>MMA BETS</h1>
+      <p>Test out your MMA betting strategy!</p>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-2">
+        <h3>You're a loser</h3>
+      </div>
+      <div class="col-sm-8 text-center" style="background-color:black; height:700px;">
+       
+      </div>
+      <div class="col-sm-2">
+        <h3>You Suck</h3>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
 </body>
 </html>
