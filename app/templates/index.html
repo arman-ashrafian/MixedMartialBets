@@ -27,6 +27,18 @@
   body {
     background-color: firebrick;
   }
+
+  #fightTable {
+    color: white;
+    font-size: 20pt;
+    text-align: center;
+  }
+
+  #eventName {
+    color: white;
+    font-size: 36pt;
+    text-align: center;
+  }
   </style>
 
   {% block addStyle %}{%endblock%}
@@ -50,7 +62,7 @@
 
       {% if not logged_in %}
         <li {% block loginActive %}{% endblock %}>
-            <a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       {% else %}
         <li><a>{{user_name}}</a></li>
         <li> <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -70,15 +82,26 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-2">
-        <h3>You're a loser</h3>
-      </div>
+      <div class="col-sm-2"> </div>
+
       <div class="col-sm-8 text-center" style="background-color:black; height:700px;">
-       
+        <br><br><br>
+        <h1 id="eventName">{{event_name}}</h1>
+        <br><br><br>
+        <table class="table table-hover" id="fightTable" align="center" border=0>
+
+          {% for fight in fights %}
+            <tr>
+               <td>{{ fight.fighterA }}</td>
+               <td>{{ fight.oddA }}</td>
+               <td>{{ fight.fighterB }}</td>
+               <td>{{ fight.oddB }}</td>
+            </tr>
+          {% endfor %}
+        </table>
       </div>
-      <div class="col-sm-2">
-        <h3>You Suck</h3>
-      </div>
+
+      <div class="col-sm-2"></div>
     </div>
   </div>
 

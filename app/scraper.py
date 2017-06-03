@@ -35,9 +35,9 @@ def getFights():
     for x in range(0, len(dfs)):
         for i in range(0,2):
             if i == 0:
-                odds2.append(fight[x]['Opening Moneyline'][0][0:4])
+                odds2.append(fight[x]['Current Moneyline'][0][0:4])
             else:
-                odds2.append(fight[x]['Opening Moneyline'][0][4:])
+                odds2.append(fight[x]['Current Moneyline'][0][4:])
 
     fightObjects = []
 
@@ -48,6 +48,10 @@ def getFights():
         datetime_obj = datetime.strptime(dateSplit[1][1:], '%b %d')
         date_final = "%d-%d-%s" % (datetime_obj.month, datetime_obj.day, year)
 
+
         fightObjects.append(models.Fight(eventName, date_final, fighters[i], odds2[i], fighters[i+1], odds2[i+1]))
 
+
     return fightObjects
+
+getFights()
