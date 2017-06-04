@@ -9,14 +9,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <style>
-
   .page-header {
     background-color: firebrick;
     border-width: 0;
-    color:white;
-
-  }
-  h3 {
     color:white;
   }
 
@@ -27,13 +22,11 @@
   body {
     background-color: firebrick;
   }
-
   #fightTable {
     color: white;
     font-size: 20pt;
     text-align: center;
   }
-
   #eventName {
     color: white;
     font-size: 36pt;
@@ -77,14 +70,14 @@
 
   <div class="container-fluid">
     <div class="text-center page-header">
-      <h1>MMA BETS</h1>
-      <p>Test out your MMA betting strategy!</p>
+      <h1>MMA BETS</h1>
+      <h3>Test out your MMA betting strategy!</h3>
     </div>
 
-    <div class="row">
-      <div class="col-sm-2"> </div>
+    <div class="row">
+      <div class="col-sm-2"> </div>
 
-      <div class="col-sm-8 text-center" style="background-color:black; height:700px;">
+      <div class="col-sm-8 text-center" style="background-color:black; height:700px;">
         <br><br><br>
         <h1 id="eventName">{{event_name}}</h1>
         <br><br><br>
@@ -99,10 +92,10 @@
             </tr>
           {% endfor %}
         </table>
-      </div>
+      </div>
 
-      <div class="col-sm-2"></div>
-    </div>
+      <div class="col-sm-2"></div>
+    </div>
   </div>
 
 {% endblock %}

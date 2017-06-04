@@ -20,28 +20,31 @@ from app import views, models, scraper
 def updateDatabase():
     fights = scraper.getFights()
 
-    today = datetime.datetime.now()
+    # fights == None if no datafram in foxsports
+    if fights != None:
 
-    fightDate = datetime.datetime.strptime(fights[0].date[0:-1], '%m-%d-%Y')
+        today = datetime.datetime.now()
+
+        fightDate = datetime.datetime.strptime(fights[0].date[0:-1], '%m-%d-%Y')
 
 
-    if(today <= fightDate):
-        for fight in fights:
-            fightQuery = models.Fight.query.filter_by(fighterA=fight.fighterA).first()
-            if(fight.oddA != fightQuery.oddA):
-                fightQuery.oddA = fight.oddA
-            if(fight.oddB != fightQuery.oddB):
-                fightQuery.oddB = fight.oddB
-            print("Updated the Database")
-
-    else:
-        try:
+        if(today <= fightDate):
             for fight in fights:
-                db.session.add(fight)
-        except:
-            print("Error Adding to Database")
+                fightQuery = models.Fight.query.filter_by(fighterA=fight.fighterA).first()
+                if(fight.oddA != fightQuery.oddA):
+                    fightQuery.oddA = fight.oddA
+                if(fight.oddB != fightQuery.oddB):
+                    fightQuery.oddB = fight.oddB
+                print("Updated the Database")
 
-    db.session.commit()
+        else:
+            try:
+                for fight in fights:
+                    db.session.add(fight)
+            except:
+                print("Error Adding to Database")
+
+        db.session.commit()
 
 
 

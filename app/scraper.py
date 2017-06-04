@@ -8,7 +8,11 @@ from datetime import datetime
 
 def getFights():
     url = "http://www.foxsports.com/ufc/odds"
-    dfs = pd.read_html(url) #reads the html tables into a list of dataframe objects
+    try:
+        dfs = pd.read_html(url) #reads the html tables into a list of dataframe objects
+    except ValueError:
+        return None
+
     sauce = urllib.request.urlopen(url).read()
     soup = bs.BeautifulSoup(sauce, 'lxml')
 
