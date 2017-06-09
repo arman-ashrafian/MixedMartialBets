@@ -3,13 +3,21 @@ from app import scraper
 from app import db
 from app import models
 from flask import render_template, request, session, redirect, url_for
+from datetime import datetime
 
 @app.route('/')
 @app.route('/index')
 def index():
     currentUser = getCurrentUser()
-    fights = models.Fight.query.all()
-    eventName = fights[0].event;
+    dbFights = models.Fight.query.all()
+    fights = []
+
+    latestDate = dbFights[len(dbFights) - 1].date
+    eventName = dbFights[len(dbFights) - 1].event
+    for fight in dbFights:
+        if(fight.date == latestDate):
+            fights.append(fight)
+
     if currentUser:
         return render_template('index.html', logged_in=True,
                                user_name=currentUser, fights=fights,
