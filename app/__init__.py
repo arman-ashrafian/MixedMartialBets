@@ -25,12 +25,16 @@ def updateDatabase():
 
         today = datetime.datetime.now()
 
-        fightDate = datetime.datetime.strptime(fights[0].date[0:-1], '%m-%d-%Y')
+        dbFights = models.Fight.query.all()
+
+        fightDate = datetime.datetime.strptime(dbFights[len(dbFights)-1].date[0:-1], '%m-%d-%Y')
 
 
         if(today <= fightDate):
+        # Update the current fights
             for fight in fights:
-                fightQuery = models.Fight.query.filter_by(fighterA=fight.fighterA).first()
+                fightQuery = models.Fight.query.filter(and_(models.Fight.fighterA == fight.fighterA,
+                                                            models.Fight.fighterB == fight.fighterB)).first()
                 if(fight.oddA != fightQuery.oddA):
                     fightQuery.oddA = fight.oddA
                 if(fight.oddB != fightQuery.oddB):
@@ -38,6 +42,7 @@ def updateDatabase():
                 print("Updated the Database")
 
         else:
+        # add new fights to database
             try:
                 for fight in fights:
                     db.session.add(fight)
@@ -57,7 +62,7 @@ def runBackgroundThread():
 # Update database background task set up
 def scheduleTask():
     # update database every 10 seconds
-    schedule.every(30).minutes.do(updateDatabase)
+    schedule.every(1).minutes.do(updateDatabase)
 
     t = Thread(target=runBackgroundThread)
     t.start()
