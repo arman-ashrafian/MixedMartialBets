@@ -10,7 +10,7 @@ def getFights():
     url = "http://www.foxsports.com/ufc/odds"
     try:
         dfs = pd.read_html(url) #reads the html tables into a list of dataframe objects
-    except ValueError:
+    except:
         return None
 
     sauce = urllib.request.urlopen(url).read()
@@ -57,5 +57,3 @@ def getFights():
 
 
     return fightObjects
-
-getFights()

@@ -12,12 +12,14 @@ app = Flask(__name__)
 base_dir = os.path.abspath(os.path.dirname(__file__))
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(base_dir, 'database.sqlite3')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'supersecretkey'
 db = SQLAlchemy(app)
 
 from app import views, models, scraper
 
 def updateDatabase():
+    print("Running Database Update")
     fights = scraper.getFights()
 
     # fights == None if no datafram in foxsports
@@ -39,7 +41,7 @@ def updateDatabase():
                     fightQuery.oddA = fight.oddA
                 if(fight.oddB != fightQuery.oddB):
                     fightQuery.oddB = fight.oddB
-                print("Updated the Database")
+                print("Updated the Database: " + str(fight))
 
         else:
         # add new fights to database
@@ -66,6 +68,6 @@ def scheduleTask():
 
     t = Thread(target=runBackgroundThread)
     t.start()
-    print("Starting Background Tasks")
+    print("Starting Background Task")
 
 scheduleTask()

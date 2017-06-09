@@ -24,12 +24,12 @@
   }
   #fightTable {
     color: white;
-    font-size: 20pt;
+    font-size: 18pt;
     text-align: center;
   }
   #eventName {
     color: white;
-    font-size: 36pt;
+    font-size: 26pt;
     text-align: center;
   }
   </style>
@@ -50,6 +50,8 @@
           <a href="/index">Home</a></li>
         <li {% block profileActive %}{% endblock %}>
           <a href="#">Profile</a></li>
+        <li {% block placeBetsActive %}{% endblock %}>
+          <a href="#">Place Bets</a></li>
         <li {% block previousEventsActive %}{% endblock %}>
           <a href="#">Previous Events</a></li>
       </ul>
@@ -77,26 +79,40 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-2"> </div>
+      <div class="col-sm-1">
+      </div>
 
-      <div class="col-sm-8 text-center" style="background-color:black; height:700px;">
-        <br><br><br>
-        <h1 id="eventName">{{event_name}}</h1>
+      <div class="col-sm-10 text-center" style="background-color:black; height:700px;">
+        <br>
+        <h2 style="text-align:left;color:white">Upcoming Event:</h2>
+        <br /><br />
+        <h3 id="eventName">{{event_name}}</h2>
         <br><br><br>
         <table class="table table-hover" id="fightTable" align="center" border=0>
 
           {% for fight in fights %}
             <tr>
                <td>{{ fight.fighterA }}</td>
-               <td>{{ fight.oddA }}</td>
+
+               {% if fight.oddA > 0 %}
+                <td>+{{ fight.oddA }}</td>
+               {% else %}
+                <td>{{ fight.oddA }}</td>
+               {% endif %}
+
                <td>{{ fight.fighterB }}</td>
-               <td>{{ fight.oddB }}</td>
+
+               {% if fight.oddB > 0 %}
+                <td>+{{ fight.oddB }}</td>
+               {% else %}
+                <td>{{ fight.oddB }}</td>
+               {% endif %}
             </tr>
           {% endfor %}
         </table>
       </div>
 
-      <div class="col-sm-2"></div>
+      <div class="col-sm-1"></div>
     </div>
   </div>
 
