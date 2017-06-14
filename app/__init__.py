@@ -37,11 +37,13 @@ def updateDatabase():
             for fight in fights:
                 fightQuery = models.Fight.query.filter(and_(models.Fight.fighterA == fight.fighterA,
                                                             models.Fight.fighterB == fight.fighterB)).first()
-                if(fight.oddA != fightQuery.oddA):
-                    fightQuery.oddA = fight.oddA
-                if(fight.oddB != fightQuery.oddB):
-                    fightQuery.oddB = fight.oddB
-                print("Updated the Database: " + str(fight))
+                if(fightQuery):
+                    if(fight.oddA != fightQuery.oddA):
+                        fightQuery.oddA = fight.oddA
+                    if(fight.oddB != fightQuery.oddB):
+                        fightQuery.oddB = fight.oddB
+                    print("Updated the Database: " + str(fight))
+
 
         else:
         # add new fights to database
