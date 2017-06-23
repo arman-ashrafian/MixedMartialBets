@@ -63,7 +63,7 @@ def runBackgroundThread():
     while True:
         schedule.run_pending()
 
-# Update database background task set up
+# Database-update task set up
 def scheduleTask():
     # update database every 10 seconds
     schedule.every(1).minutes.do(updateDatabase)
@@ -72,4 +72,4 @@ def scheduleTask():
     t.start()
     print("Starting Background Task")
 
-scheduleTask()
+# scheduleTask() # starts background thread

@@ -1,0 +1,96 @@
+{% extends "index.html" %}
+
+{% block addStyle %}
+
+<style>
+
+#betDiv {
+  background-color: rgb(45,40,40);
+  color: black;
+  font-size: 18pt;
+  text-align: left;
+  border-color: black;
+}
+
+</style>
+
+{% endblock %}
+
+{% block homeActive %}{% endblock %}
+{% block placeBetsActive %}class="active"{% endblock %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+
+  <br>
+  <h2 style="text-align:left;color:white">Upcoming Event:</h2>
+  <h3 id="eventName">{{event_name}}</h2>
+
+  <div class="row">
+    <div class="col-sm-3">
+    </div>
+
+    <div class="col-sm-6">
+      <br /><br />
+
+      {% for fight in fights %}
+      <div id="betDiv" class="well">
+            <form>
+              <div class ="row" style="height:inherit;background-color:inherit">
+                <div class="col-sm-9">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="optradio">{{fight.fighterA}}
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <label style="padding-top:10px">{{fight.oddA}}</label>
+                </div>
+              </div>
+
+              <div class ="row" style="height:inherit;background-color:inherit">
+                <div class="col-sm-9">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="optradio">{{fight.fighterB}}
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <label style="padding-top:10px">{{fight.oddB}}</label>
+                </div>
+              </div>
+
+              <div class="row" style="background-color:inherit">
+                <div class="col-sm-4">
+                  <input type="text" class="form-control"
+                   placeholder="Bet Amount"/>
+                </div>
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4">
+                  <button type="submit" class="btn btn-sm btn-danger btn-block">Place Bet</button>
+                </div>
+              </div>
+        </div><br /><br />
+        {% endfor %}
+
+
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

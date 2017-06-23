@@ -85,6 +85,19 @@ def signInUser():
             else:
                 return render_template('login.html', incorrect_login=True)
 
+@app.route('/placeBets')
+def placeBets():
+    allFights = models.Fight.query.all()
+    eventName = allFights[-1].event
+
+    fights = []
+    for fight in allFights:
+        if(fight.event == eventName):
+            fights.append(fight)
+
+    return render_template('placeBets.html', event_name=eventName,
+                           fights=fights)
+
 def getCurrentUser():
     currentUser = None
     if 'username' in session:
