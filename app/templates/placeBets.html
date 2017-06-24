@@ -14,6 +14,18 @@
 
 </style>
 
+<script>
+
+$(document).ready(function() {
+
+    function sendForm() {
+      console.log("FORM SENT");
+    }
+
+})
+
+</script>
+
 {% endblock %}
 
 {% block homeActive %}{% endblock %}
@@ -36,14 +48,13 @@
 
       {% for fight in fights %}
       <div id="betDiv" class="well">
-            <form>
+            <form action="/createBet/{{fight.id}}" name="form" method="POST">
               <div class ="row" style="height:inherit;background-color:inherit">
                 <div class="col-sm-9">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="optradio">{{fight.fighterA}}
-                    </label>
-                  </div>
+                  <label>
+                    <input type="radio" name="fighter" value="fighterA">
+                    {{fight.fighterA}}
+                  </label>
                 </div>
                 <div class="col-sm-3">
                   <label style="padding-top:10px">{{fight.oddA}}</label>
@@ -52,11 +63,10 @@
 
               <div class ="row" style="height:inherit;background-color:inherit">
                 <div class="col-sm-9">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="optradio">{{fight.fighterB}}
-                    </label>
-                  </div>
+                  <label>
+                    <input type="radio" name="fighter" value="fighterB">
+                    {{fight.fighterB}}
+                  </label>
                 </div>
                 <div class="col-sm-3">
                   <label style="padding-top:10px">{{fight.oddB}}</label>
@@ -65,15 +75,19 @@
 
               <div class="row" style="background-color:inherit">
                 <div class="col-sm-4">
-                  <input type="text" class="form-control"
+                  <input type="text" class="form-control" name="betAmount"
                    placeholder="Bet Amount"/>
                 </div>
                 <div class="col-sm-4">
                 </div>
                 <div class="col-sm-4">
-                  <button type="submit" class="btn btn-sm btn-danger btn-block">Place Bet</button>
+                  <button type="submit"
+                          class="btn btn-sm btn-danger btn-block">
+                          Place Bet
+                  </button>
                 </div>
               </div>
+            </form>
         </div><br /><br />
         {% endfor %}
 

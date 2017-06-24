@@ -49,8 +49,11 @@ def registerUser():
             return render_template("signUp.html", empty_form=True, emailError=True)
 
         else:
-            # check if email already exists in database
-            if not models.User.query.filter_by(email=request.form['email']).first():
+            # check if email/username already exists in database
+            emailQuery = models.User.query.filter_by(email=request.form['email']).first()
+            nameQuery = models.User.query.filter_by(name=request.form['name']).first()
+
+            if (not emailQuery and not nameQuery):
                 # add User to database
                 newUser = models.User(request.form['name'], request.form['email'], request.form['password'], 0)
 
@@ -62,7 +65,13 @@ def registerUser():
                 return redirect(url_for('index'))
             else:
                 # email already exists
-                return render_template("signUp.html", empty_form=False, emailError=True)
+                emailErr = False
+                nameErr = False
+                if(emailQuery):
+                    emailErr = True
+                if(nameQuery):
+                    nameErr = True
+                return render_template("signUp.html", empty_form=False, emailError=emailErr, nameError=nameErr)
     return render_template("signUp.html")
 
 
@@ -87,6 +96,9 @@ def signInUser():
 
 @app.route('/placeBets')
 def placeBets():
+    user = getCurrentUser()
+    loggedIn = False
+    if user: loggedIn = True
     allFights = models.Fight.query.all()
     eventName = allFights[-1].event
 
@@ -96,7 +108,35 @@ def placeBets():
             fights.append(fight)
 
     return render_template('placeBets.html', event_name=eventName,
-                           fights=fights)
+                           fights=fights, user_name=user, logged_in=loggedIn)
+
+@app.route('/createBet/<int:fightID>', methods = ['POST'])
+def createBet(fightID):
+    if request.method == 'POST':
+        user = getCurrentUser()
+
+        if not user:
+            return redirect(url_for('login'))
+        else:
+            usermodel = models.User.query.filter_by(email=session['email']).first()
+
+        if not request.form['betAmount'] or len(request.form) < 2:
+            return redirect(url_for('placeBets'))
+        elif int(request.form['betAmount']) > usermodel.balance:
+            print("TOO LARGE")
+        else:
+            newBet = models.Bet(fightID=fightID,
+                                userID=usermodel.id,
+                                amount=int(request.form['betAmount']))
+            usermodel.balance -= int(request.form['betAmount'])
+            db.session.add(newBet)
+            db.session.commit()
+            print("New bet added to database")
+
+
+    return redirect(url_for('placeBets'))
+
+
 
 def getCurrentUser():
     currentUser = None

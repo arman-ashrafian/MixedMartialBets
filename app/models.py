@@ -12,7 +12,7 @@ class Fight(db.Model):
     oddA = db.Column(db.Integer)
     fighterB = db.Column(db.String(100))
     oddB = db.Column(db.Integer)
-    result = db.Column(db.Integer)
+    result = db.Column(db.Integer, default=0)
 
     # Constructor
     def __init__(self, event, date, fighterA, oddA, fighterB, oddB):
