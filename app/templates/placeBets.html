@@ -16,11 +16,8 @@
 
 <script>
 
-$(document).ready(function() {
+$(function() {
 
-    function sendForm() {
-      console.log("FORM SENT");
-    }
 
 })
 
@@ -48,48 +45,48 @@ $(document).ready(function() {
 
       {% for fight in fights %}
       <div id="betDiv" class="well">
-            <form action="/createBet/{{fight.id}}" name="form" method="POST">
-              <div class ="row" style="height:inherit;background-color:inherit">
-                <div class="col-sm-9">
-                  <label>
-                    <input type="radio" name="fighter" value="fighterA">
-                    {{fight.fighterA}}
-                  </label>
-                </div>
-                <div class="col-sm-3">
-                  <label style="padding-top:10px">{{fight.oddA}}</label>
-                </div>
-              </div>
+        <form action="/createBet/{{fight.id}}" name="form" method="POST">
+          <div class ="row" style="height:inherit;background-color:inherit">
+            <div class="col-sm-9">
+              <label>
+                <input type="radio" name="fighter" value="fighterA">
+                {{fight.fighterA}}
+              </label>
+            </div>
+            <div class="col-sm-3">
+              <label style="padding-top:10px">{{fight.oddA}}</label>
+            </div>
+          </div>
 
-              <div class ="row" style="height:inherit;background-color:inherit">
-                <div class="col-sm-9">
-                  <label>
-                    <input type="radio" name="fighter" value="fighterB">
-                    {{fight.fighterB}}
-                  </label>
-                </div>
-                <div class="col-sm-3">
-                  <label style="padding-top:10px">{{fight.oddB}}</label>
-                </div>
-              </div>
+          <div class ="row" style="height:inherit;background-color:inherit">
+            <div class="col-sm-9">
+              <label>
+                <input type="radio" name="fighter" value="fighterB">
+                {{fight.fighterB}}
+              </label>
+            </div>
+            <div class="col-sm-3">
+              <label style="padding-top:10px">{{fight.oddB}}</label>
+            </div>
+          </div>
 
-              <div class="row" style="background-color:inherit">
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" name="betAmount"
-                   placeholder="Bet Amount"/>
-                </div>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-4">
-                  <button type="submit"
-                          class="btn btn-sm btn-danger btn-block">
-                          Place Bet
-                  </button>
-                </div>
-              </div>
-            </form>
-        </div><br /><br />
-        {% endfor %}
+          <div class="row" style="background-color:inherit">
+            <div class="col-sm-4">
+              <input type="text" class="form-control" name="betAmount"
+               placeholder="Bet Amount"/>
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">
+              <button type="submit"
+                      class="btn btn-sm btn-danger btn-block">
+                      Place Bet
+              </button>
+            </div>
+          </div>
+        </form>
+      </div><br /><br />
+      {% endfor %}
 
 
         </div>
