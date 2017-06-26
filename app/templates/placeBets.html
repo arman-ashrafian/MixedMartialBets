@@ -16,10 +16,24 @@
 
 <script>
 
-$(function() {
+function placeBets(fightID) {
+  var radioButtonName = 'fighter' + fightID;
+  var fighter = $('input[name="' + radioButtonName + '"]:checked').val();
+  var betAmount = parseInt($('#betAmount' + fightID).val());
 
+  if(isNaN(betAmount)) {
+    /* show error message to user */
+    console.log("Inavlid Bet Amount");
 
-})
+  } else {
+      console.log({
+        type: "POST",
+        url: '/createBet/' + fightID,
+        fighter: fighter,
+        betAmount: betAmount
+      })
+  }
+}
 
 </script>
 
@@ -45,11 +59,11 @@ $(function() {
 
       {% for fight in fights %}
       <div id="betDiv" class="well">
-        <form action="/createBet/{{fight.id}}" name="form" method="POST">
+        <form name="form">
           <div class ="row" style="height:inherit;background-color:inherit">
             <div class="col-sm-9">
               <label>
-                <input type="radio" name="fighter" value="fighterA">
+                <input type="radio" name="fighter{{fight.id}}" value="fighterA">
                 {{fight.fighterA}}
               </label>
             </div>
@@ -61,7 +75,7 @@ $(function() {
           <div class ="row" style="height:inherit;background-color:inherit">
             <div class="col-sm-9">
               <label>
-                <input type="radio" name="fighter" value="fighterB">
+                <input type="radio" name="fighter{{fight.id}}" value="fighterB">
                 {{fight.fighterB}}
               </label>
             </div>
@@ -72,13 +86,13 @@ $(function() {
 
           <div class="row" style="background-color:inherit">
             <div class="col-sm-4">
-              <input type="text" class="form-control" name="betAmount"
+              <input id="betAmount{{fight.id}}" type="text" class="form-control" name="betAmount"
                placeholder="Bet Amount"/>
             </div>
             <div class="col-sm-4">
             </div>
             <div class="col-sm-4">
-              <button type="submit"
+              <button type="button" onclick="placeBets({{fight.id}})"
                       class="btn btn-sm btn-danger btn-block">
                       Place Bet
               </button>
@@ -87,14 +101,7 @@ $(function() {
         </form>
       </div><br /><br />
       {% endfor %}
-
-
-        </div>
-
-
-
-
-
+      </div>
       </div>
     </div>
 
