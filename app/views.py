@@ -2,7 +2,7 @@ from app import app
 from app import scraper
 from app import db
 from app import models
-from flask import render_template, request, session, redirect, url_for
+from flask import render_template, request, session, redirect, url_for, jsonify
 from datetime import datetime
 
 @app.route('/')
@@ -117,6 +117,8 @@ def createBet(fightID):
 
         print(request.form)
 
+        return jsonify(status="ok")
+
         # if not user:
         #     return redirect(url_for('login'))
         # else:
@@ -136,7 +138,7 @@ def createBet(fightID):
         #     print("New bet added to database")
 
 
-    return redirect(url_for('placeBets'))
+    #return redirect(url_for('placeBets'))
 
 
 

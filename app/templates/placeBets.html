@@ -23,7 +23,15 @@
       confirm("Inavlid Bet Amount");
 
     } else {
-      $('#form' + fightID).submit();
+      //$('#form' + fightID).submit();
+      $.post('/createBet/' + fightID,
+            {
+              fighter: fighter,
+              betAmount: betAmount
+            },
+            function(data) {
+              console.log(data);
+            })
     }
   }
 
@@ -41,12 +49,12 @@
   <h3 id="eventName">{{event_name}}</h2>
 
     <div class="row">
-    
+
       <div class="col-sm-3">
         </div>
 
       <div class="col-sm-6">
-        <br /><br /> 
+        <br /><br />
         {% for fight in fights %}
         <div id="betDiv" class="well">
           <form id="form{{fight.id}}" action="/createBet/{{fight.id}}" method="POST">
@@ -76,7 +84,7 @@
               <div class="col-sm-3">
                 {% if fight.oddB < 0 %}
                 <label style="padding-top:10px">{{fight.oddB}}</label>
-                {% else %} 
+                {% else %}
                 <label style="padding-top:10px">+{{fight.oddB}}</label>
                 {% endif %}
               </div>
