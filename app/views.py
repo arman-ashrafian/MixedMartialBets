@@ -115,23 +115,25 @@ def createBet(fightID):
     if request.method == 'POST':
         user = getCurrentUser()
 
-        if not user:
-            return redirect(url_for('login'))
-        else:
-            usermodel = models.User.query.filter_by(email=session['email']).first()
+        print(request.form)
 
-        if not request.form['betAmount'] or len(request.form) < 2:
-            return redirect(url_for('placeBets'))
-        elif int(request.form['betAmount']) > usermodel.balance:
-            print("TOO LARGE")
-        else:
-            newBet = models.Bet(fightID=fightID,
-                                userID=usermodel.id,
-                                amount=int(request.form['betAmount']))
-            usermodel.balance -= int(request.form['betAmount'])
-            db.session.add(newBet)
-            db.session.commit()
-            print("New bet added to database")
+        # if not user:
+        #     return redirect(url_for('login'))
+        # else:
+        #     usermodel = models.User.query.filter_by(email=session['email']).first()
+
+        # if not request.form['betAmount'] or len(request.form) < 2:
+        #     return redirect(url_for('placeBets'))
+        # elif int(request.form['betAmount']) > usermodel.balance:
+        #     print("TOO LARGE")
+        # else:
+        #     newBet = models.Bet(fightID=fightID,
+        #                         userID=usermodel.id,
+        #                         amount=int(request.form['betAmount']))
+        #     usermodel.balance -= int(request.form['betAmount'])
+        #     db.session.add(newBet)
+        #     db.session.commit()
+        #     print("New bet added to database")
 
 
     return redirect(url_for('placeBets'))

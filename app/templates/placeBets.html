@@ -3,114 +3,108 @@
 {% block addStyle %}
 
 <style>
-
-#betDiv {
-  background-color: rgb(45,40,40);
-  color: black;
-  font-size: 18pt;
-  text-align: left;
-  border-color: black;
-}
-
+  #betDiv {
+    background-color: rgb(45, 40, 40);
+    color: black;
+    font-size: 18pt;
+    text-align: left;
+    border-color: black;
+  }
 </style>
 
 <script>
+  function placeBets(fightID) {
+    var radioButtonName = 'fighter' + fightID;
+    var fighter = $('input[name="' + radioButtonName + '"]:checked').val();
+    var betAmount = parseInt($('#betAmount' + fightID).val());
 
-function placeBets(fightID) {
-  var radioButtonName = 'fighter' + fightID;
-  var fighter = $('input[name="' + radioButtonName + '"]:checked').val();
-  var betAmount = parseInt($('#betAmount' + fightID).val());
+    if (isNaN(betAmount)) {
+      /* show error message to user */
+      confirm("Inavlid Bet Amount");
 
-  if(isNaN(betAmount)) {
-    /* show error message to user */
-    console.log("Inavlid Bet Amount");
-
-  } else {
-      console.log({
-        type: "POST",
-        url: '/createBet/' + fightID,
-        fighter: fighter,
-        betAmount: betAmount
-      });
-
-      $.post("/createBet/" + fightID, {fighter: fighter, betAmount: betAmount});
+    } else {
+      $('#form' + fightID).submit();
+    }
   }
-}
 
 </script>
 
 {% endblock %}
-
 {% block homeActive %}{% endblock %}
 {% block placeBetsActive %}class="active"{% endblock %}
 
-{% block page_content %}
-
+{% block page_content%}
 <div class="container-fluid">
 
   <br>
   <h2 style="text-align:left;color:white">Upcoming Event:</h2>
   <h3 id="eventName">{{event_name}}</h2>
 
-  <div class="row">
-    <div class="col-sm-3">
-    </div>
+    <div class="row">
+    
+      <div class="col-sm-3">
+        </div>
 
-    <div class="col-sm-6">
-      <br /><br />
-
-      {% for fight in fights %}
-      <div id="betDiv" class="well">
-        <form name="form">
-          <div class ="row" style="height:inherit;background-color:inherit">
-            <div class="col-sm-9">
-              <label>
+      <div class="col-sm-6">
+        <br /><br /> 
+        {% for fight in fights %}
+        <div id="betDiv" class="well">
+          <form id="form{{fight.id}}" action="/createBet/{{fight.id}}" method="POST">
+            <div class="row" style="height:inherit;background-color:inherit">
+              <div class="col-sm-9">
+                <label>
                 <input type="radio" name="fighter{{fight.id}}" value="fighterA">
                 {{fight.fighterA}}
               </label>
+              </div>
+              <div class="col-sm-3">
+                {% if fight.oddA < 0 %}
+                <label style="padding-top:10px">{{fight.oddA}}</label>
+                {% else %}
+                <label style="padding-top:10px">+{{fight.oddA}}</label>
+                {% endif %}
+              </div>
             </div>
-            <div class="col-sm-3">
-              <label style="padding-top:10px">{{fight.oddA}}</label>
-            </div>
-          </div>
 
-          <div class ="row" style="height:inherit;background-color:inherit">
-            <div class="col-sm-9">
-              <label>
+            <div class="row" style="height:inherit;background-color:inherit">
+              <div class="col-sm-9">
+                <label>
                 <input type="radio" name="fighter{{fight.id}}" value="fighterB">
                 {{fight.fighterB}}
               </label>
+              </div>
+              <div class="col-sm-3">
+                {% if fight.oddB < 0 %}
+                <label style="padding-top:10px">{{fight.oddB}}</label>
+                {% else %} 
+                <label style="padding-top:10px">+{{fight.oddB}}</label>
+                {% endif %}
+              </div>
             </div>
-            <div class="col-sm-3">
-              <label style="padding-top:10px">{{fight.oddB}}</label>
-            </div>
-          </div>
 
-          <div class="row" style="background-color:inherit">
-            <div class="col-sm-4">
-              <input id="betAmount{{fight.id}}" type="text" class="form-control" name="betAmount"
-               placeholder="Bet Amount"/>
-            </div>
-            <div class="col-sm-4">
-            </div>
-            <div class="col-sm-4">
-              <button type="button" onclick="placeBets({{fight.id}})"
-                      class="btn btn-sm btn-danger btn-block">
+            <div class="row" style="background-color:inherit">
+              <div class="col-sm-4">
+                <input id="betAmount{{fight.id}}" type="text" class="form-control" name="betAmount" placeholder="Bet Amount" />
+              </div>
+              <div class="col-sm-4">
+              </div>
+              <div class="col-sm-4">
+                <button type="button" onclick="placeBets({{fight.id}})" class="btn btn-sm btn-danger btn-block">
                       Place Bet
               </button>
+              </div>
             </div>
-          </div>
-        </form>
-      </div><br /><br />
-      {% endfor %}
-      </div>
+          </form>
+        </div><br /><br />
+        {% endfor %}
       </div>
     </div>
+</div>
 
-    <div class="col-sm-3">
-    </div>
+<div class="col-sm-3">
+  </div>
 
-  </div>
+</div>
 </div>
 
 {% endblock %}
