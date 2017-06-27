@@ -31,7 +31,9 @@ function placeBets(fightID) {
         url: '/createBet/' + fightID,
         fighter: fighter,
         betAmount: betAmount
-      })
+      });
+
+      $.post("/createBet/" + fightID, {fighter: fighter, betAmount: betAmount});
   }
 }
 
