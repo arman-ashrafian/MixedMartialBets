@@ -112,17 +112,35 @@ def placeBets():
 
 @app.route('/createBet/<int:fightID>', methods = ['POST'])
 def createBet(fightID):
+    '''
+    Add new Bet to the database
+    Error Checking:
+    User not logged in - redirect to login
+    '''
     if request.method == 'POST':
         user = getCurrentUser()
 
-        print(request.form)
+        # Check if logged in
+        if not user:
+            return jsonify(status="bad", error="login")
+        else:
+            usermodel = models.User.query.filter_by(email=session['email']).first()
 
-        return jsonify(status="ok")
+            # Check Funds
+            if int(request.form['betAmount']) > usermodel.balance:
+                return jsonify(status="bad", error="balance",
+                               balance=usermodel.balance)
+            else:
+                newBet = models.Bet(fightID=fightID,
+                                    userID=usermodel.id,
+                                    amount=int(request.form['betAmount']))
+                usermodel.balance -= int(request.form['betAmount'])
+                db.session.add(newBet)
+                db.session.commit()
+                print("New bet added to database")
 
-        # if not user:
-        #     return redirect(url_for('login'))
-        # else:
-        #     usermodel = models.User.query.filter_by(email=session['email']).first()
+                return jsonify(status="ok")
+
 
         # if not request.form['betAmount'] or len(request.form) < 2:
         #     return redirect(url_for('placeBets'))

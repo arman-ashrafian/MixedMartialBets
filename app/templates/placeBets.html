@@ -21,9 +21,12 @@
     if (isNaN(betAmount)) {
       /* show error message to user */
       confirm("Inavlid Bet Amount");
-
-    } else {
-      //$('#form' + fightID).submit();
+      $('#betAmount' + fightID).val(''); // clear bet input
+    }
+    else if(fighter == null) {
+      confirm("Please Select a Fighter");
+    }
+    else {
       $.post('/createBet/' + fightID,
             {
               fighter: fighter,
@@ -31,6 +34,27 @@
             },
             function(data) {
               console.log(data);
+
+              if(data['status'] == 'bad' ) {
+                // not logged in
+                if(data['error'] == 'login') {
+                  if(confirm("Please login to place a bet")) {
+                    window.location.replace('/login');
+                  }
+                }
+                // insufficient funds
+                else {
+                  confirm("Insufficient Funds.\n\nCurrent Balance: $" + data['balance']);
+                  $('#betAmount' + fightID).val(''); // clear bet input
+                }
+              }
+              // Success
+              else {
+                var button = $("#button" + fightID);
+                button.removeClass("btn-danger");
+                button.addClass("btn-success");
+
+              }
             })
     }
   }
@@ -97,7 +121,7 @@
               <div class="col-sm-4">
               </div>
               <div class="col-sm-4">
-                <button type="button" onclick="placeBets({{fight.id}})" class="btn btn-sm btn-danger btn-block">
+                <button id="button{{fight.id}}" type="button" onclick="placeBets({{fight.id}})" class="btn btn-sm btn-danger btn-block">
                       Place Bet
               </button>
               </div>
