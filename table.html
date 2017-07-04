@@ -1,0 +1,54 @@
+<table class="table">
+    <!-- Table Head -->
+    <thead class="thead-inverse">
+        <tr>
+            <th>Fighter</th>
+            <th>MoneyLine</th>
+            <th>Fighter</th>
+            <th>MoneyLine</th>
+        </tr>
+    </thead>
+    <!-- Table Body -->
+    <tbody>
+        {% for fight in fights %}
+        <tr>
+            <!-- Fighter 1 -->
+            <td>{{ fight.fighterA }}</td>
+            {% if fight.oddA > 0 %}
+            <td>+{{ fight.oddA }}</td>
+            {% else %}
+            <td>{{ fight.oddA }}</td>
+            {% endif %}
+            <!-- Fighter 2 -->
+            <td>{{ fight.fighterB }}</td>        
+            {% if fight.oddB > 0 %}
+            <td>+{{ fight.oddB }}</td>
+            {% else %}
+            <td>{{ fight.oddB }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+
+{% for fight in fights %}
+<tr>
+    <td>{{ fight.fighterA }}</td>
+
+    {% if fight.oddA > 0 %}
+    <td>+{{ fight.oddA }}</td>
+    {% else %}
+    <td>{{ fight.oddA }}</td>
+    {% endif %}
+
+    <td>{{ fight.fighterB }}</td>
+
+    {% if fight.oddB > 0 %}
+    <td>+{{ fight.oddB }}</td>
+    {% else %}
+    <td>{{ fight.oddB }}</td>
+    {% endif %}
+</tr>
+{% endfor %}

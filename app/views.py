@@ -12,8 +12,10 @@ def index():
     dbFights = models.Fight.query.all()
     fights = []
 
+    # use date to get upcoming fights
     latestDate = dbFights[len(dbFights) - 1].date
-    eventName = dbFights[len(dbFights) - 1].event
+    eventName = dbFights[len(dbFights) - 1].event # -- pass to template
+
     for fight in dbFights:
         if(fight.date == latestDate):
             fights.append(fight)
@@ -140,24 +142,6 @@ def createBet(fightID):
                 print("New bet added to database")
 
                 return jsonify(status="ok")
-
-
-        # if not request.form['betAmount'] or len(request.form) < 2:
-        #     return redirect(url_for('placeBets'))
-        # elif int(request.form['betAmount']) > usermodel.balance:
-        #     print("TOO LARGE")
-        # else:
-        #     newBet = models.Bet(fightID=fightID,
-        #                         userID=usermodel.id,
-        #                         amount=int(request.form['betAmount']))
-        #     usermodel.balance -= int(request.form['betAmount'])
-        #     db.session.add(newBet)
-        #     db.session.commit()
-        #     print("New bet added to database")
-
-
-    #return redirect(url_for('placeBets'))
-
 
 
 def getCurrentUser():
