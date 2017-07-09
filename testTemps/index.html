@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <!--Import Google Icon Font-->
@@ -62,31 +62,47 @@
         </div>
 
         <!-- NATE DIAZ PIC -->
-        <img class="responsive-img" src="natediaz.jpg">
+        <!-- <img class="responsive-img" src="natediaz.jpg"> -->
 
         <div class="center-align white-text">
-            <h3>Upcoming Event</h3>
+          <h3>{{event_name}}</h3>
         </div>
 
         <!-- Fight Table -->
         <div class="black white-text z-depth-4">
             <table class="responsive-table">
               <tbody>
+                <!-- Fight Loop -->
+                {% for fight in fights %}
                 <tr>
-                  <td>Alvin</td>
-                  <td>Eclair</td>
-                  <td>$0.87</td>
+                  <td>{{fight.fighterA}}</td>
+
+                  <!-- Odd A -->
+                  {% if fight.oddA > 0 %}
+                    <td>+{{fight.oddA}}</td>
+                  {% else %}
+                    <td>{{fight.oddA}}</td>
+                  {% endif %}
+
+                  <td>{{fight.fighterB}}</td>
+
+                  <!-- Odd B -->
+                  {% if fight.oddB > 0 %}
+                    <td>+{{fight.oddB}}</td>
+                  {% else %}
+                    <td>{{fight.oddB}}</td>
+                  {% endif %}
+
+                  <!-- Fight Result -->
+                  {% if fight.result != 0 %}
+                    {% if fight.result == 1 %}
+                      <td>{{fight.fighterA}}</td>
+                    {% else %}
+                      <td>{{fight.fighterB}}</td>
+                    {% endif %}
+                  {% endif %}
                 </tr>
-                <tr>
-                  <td>Alan</td>
-                  <td>Jellybean</td>
-                  <td>$3.76</td>
-                </tr>
-                <tr>
-                  <td>Jonathan</td>
-                  <td>Lollipop</td>
-                  <td>$7.00</td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
         </div>
