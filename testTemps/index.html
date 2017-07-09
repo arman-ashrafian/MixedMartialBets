@@ -21,29 +21,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
     <!-- SETUP DONE -->
 
+    <!-- NAVBAR (w/ mobile collapse) -->
+    <nav>
+      <div class="nav-wrapper black ">
+        <a href="#!" class="brand-logo center">LOGO</a>
+        <a href="#" data-activates="mobile-menu" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+        <ul class="side-nav" id="mobile-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Place Bets</a></li>
+            <li>
+              <div class="divider"></div>
+            </li>
+            <li><a href="#"><i class="small material-icons">perm_identity</i>Sign In</a>
+            </li>
+        </ul>
+      </div>
+    </nav> <br />
+
     <div class="container">
-        <h1 class="center-align">Mixed Martial Bets</h1>
 
-        <!-- NAVBAR (w/ mobile collapse) -->
-        <nav>
-          <div class="nav-wrapper black ">
-            <a href="#!" class="brand-logo center">LOGO</a>
-            <a href="#" data-activates="mobile-menu" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
-            <ul class="side-nav" id="mobile-menu">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Place Bets</a></li>
-                <li>
-                  <div class="divider"></div>
-                </li>
-                <li><a href="#"><i class="small material-icons">perm_identity</i>Sign In</a>
-                </li>
-            </ul>
-          </div>
-      </nav> <br />
-
-        <!-- NATE DIAZ PIC -->
-        <img class="responsive-img" src="natediaz.jpg">
+        <!-- Register Button -->
+        <div class="section center-align">
+            <h3 class=>MMA Betting Simulator!</h3>
+            <a class="waves-effect waves-light btn-large red lighten-2 black-text z-depth-4">
+                <i class="material-icons right">assignment_ind</i>Register Now!
+            </a>
+        </div>
 
         <!-- Website Description -->
         <div class="card-panel black z-depth-4">
@@ -56,6 +60,9 @@
                 </span>
             </p>
         </div>
+
+        <!-- NATE DIAZ PIC -->
+        <img class="responsive-img" src="natediaz.jpg">
 
         <div class="center-align white-text">
             <h3>Upcoming Event</h3>
