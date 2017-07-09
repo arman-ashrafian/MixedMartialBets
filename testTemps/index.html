@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8">
 
-    <title>Arman Ashrafian</title>
+    <title>Mixed Martial Bets</title>
 </head>
 
 <body>
@@ -22,35 +22,81 @@
     <!-- SETUP DONE -->
 
     <div class="container">
-      <h1 class="align-center">MixedMartialBets</h1>
+        <h1 class="center-align">Mixed Martial Bets</h1>
 
-      <ul id="slide-out" class="side-nav">
-          <li>
-            <a href="#"><i class="material-icons">cloud</i> Link 1</a>
-          </li>
-          <li>
-            <a href="#">Link 2</a>
-          </li>
-          <li>
-            <div class="divider"></div>
-          </li>
-          <li>
-            <a class="subheader" href="#">Subheaderr</a>
-          </li>
-          <li>
-            <a class="waves-effect" href="#">Link 3</a>
-          </li>
-        </ul>
-        <a href="" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        <!-- NAVBAR (w/ mobile collapse) -->
+        <nav>
+          <div class="nav-wrapper black ">
+            <a href="#!" class="brand-logo center">LOGO</a>
+            <a href="#" data-activates="mobile-menu" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+            <ul class="side-nav" id="mobile-menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Place Bets</a></li>
+                <li>
+                  <div class="divider"></div>
+                </li>
+                <li><a href="#"><i class="small material-icons">perm_identity</i>Sign In</a>
+                </li>
+            </ul>
+          </div>
+      </nav> <br />
+
+        <!-- NATE DIAZ PIC -->
+        <img class="responsive-img" src="natediaz.jpg">
+
+        <!-- Website Description -->
+        <div class="card-panel black z-depth-4">
+            <p class="flow-text">
+                <span class="white-text">
+                    Mixed Martial Bets is the #1 MMA Betting Simulator in the world.
+                    Our service is 100% Free and is meant to make watching MMA fights
+                    more enjoyable. Test out your MMA knowledge and practice your betting
+                    strategy before you move on to making real bets.
+                </span>
+            </p>
+        </div>
+
+        <div class="center-align white-text">
+            <h3>Upcoming Event</h3>
+        </div>
+
+        <!-- Fight Table -->
+        <div class="black white-text z-depth-4">
+            <table class="responsive-table">
+              <tbody>
+                <tr>
+                  <td>Alvin</td>
+                  <td>Eclair</td>
+                  <td>$0.87</td>
+                </tr>
+                <tr>
+                  <td>Alan</td>
+                  <td>Jellybean</td>
+                  <td>$3.76</td>
+                </tr>
+                <tr>
+                  <td>Jonathan</td>
+                  <td>Lollipop</td>
+                  <td>$7.00</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+
+        <div style="height:100px;"></div>
 
     </div>  <!-- /.container -->
+
 <script>
-
-$(document).ready(function() {
-  // Init Sidenav
-  $('.button-collapse').sideNav();
-})
-
+    $(".button-collapse").sideNav();
 </script>
+
+<style>
+    html {
+        background-color: firebrick;
+    }
+</style>
+
 </body>
 </html>
