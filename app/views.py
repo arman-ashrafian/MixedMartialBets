@@ -20,11 +20,13 @@ def index():
         if(fight.date == latestDate):
             fights.append(fight)
 
-    if currentUser:
-        return render_template('index.html', logged_in=True,
-                               user_name=currentUser, fights=fights,
-                               event_name=eventName)
-    return render_template('index.html', logged_in=False, fights=fights, event_name=eventName)
+    return render_template('newIndex.html', fights=fights, event_name=eventName)
+
+    # if currentUser:
+    #     return render_template('index.html', logged_in=True,
+    #                            user_name=currentUser, fights=fights,
+    #                            event_name=eventName)
+    # return render_template('index.html', logged_in=False, fights=fights, event_name=eventName)
 
 @app.route('/signup')
 def signUp():

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+
+    <title>Mixed Martial Bets</title>
+</head>
+
+<body>
+    <!--Import jQuery-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Import Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    <!-- SETUP DONE -->
+
+    <!-- NAVBAR (w/ mobile collapse) -->
+    <nav>
+      <div class="nav-wrapper black ">
+        <a href="#!" class="brand-logo center">LOGO</a>
+        <a href="#" data-activates="mobile-menu" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+        <ul class="side-nav" id="mobile-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Place Bets</a></li>
+            <li>
+              <div class="divider"></div>
+            </li>
+            <li><a href="#"><i class="small material-icons">perm_identity</i>Sign In</a>
+            </li>
+        </ul>
+      </div>
+    </nav> <br />
+
+    <div class="container">
+
+        <!-- Register Button -->
+        <div class="section center-align">
+            <h3 class=>MMA Betting Simulator!</h3>
+            <a class="waves-effect waves-light btn-large red lighten-2 black-text z-depth-4">
+                <i class="material-icons right">assignment_ind</i>Register Now!
+            </a>
+        </div>
+
+        <!-- Website Description -->
+        <div class="card-panel black z-depth-4">
+            <p class="flow-text">
+                <span class="white-text">
+                    Mixed Martial Bets is the #1 MMA Betting Simulator in the world.
+                    Our service is 100% Free and is meant to make watching MMA fights
+                    more enjoyable. Test out your MMA knowledge and practice your betting
+                    strategy before you move on to making real bets.
+                </span>
+            </p>
+        </div>
+
+        <!-- NATE DIAZ PIC -->
+        <!-- <img class="responsive-img" src="natediaz.jpg"> -->
+
+        <div class="center-align white-text">
+          <h3>{{event_name}}</h3>
+        </div>
+
+        <!-- Fight Table -->
+        <div class="black white-text z-depth-4">
+            <table class="responsive-table">
+              <tbody>
+                <!-- Fight Loop -->
+                {% for fight in fights %}
+                <tr>
+                  <td>{{fight.fighterA}}</td>
+
+                  <!-- Odd A -->
+                  {% if fight.oddA > 0 %}
+                    <td>+{{fight.oddA}}</td>
+                  {% else %}
+                    <td>{{fight.oddA}}</td>
+                  {% endif %}
+
+                  <td>{{fight.fighterB}}</td>
+
+                  <!-- Odd B -->
+                  {% if fight.oddB > 0 %}
+                    <td>+{{fight.oddB}}</td>
+                  {% else %}
+                    <td>{{fight.oddB}}</td>
+                  {% endif %}
+
+                  <!-- Fight Result -->
+                  {% if fight.result != 0 %}
+                    {% if fight.result == 1 %}
+                      <td>{{fight.fighterA}}</td>
+                    {% else %}
+                      <td>{{fight.fighterB}}</td>
+                    {% endif %}
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+
+        <div style="height:100px;"></div>
+
+    </div>  <!-- /.container -->
+
+<script>
+    $(".button-collapse").sideNav();
+</script>
+
+<style>
+    html {
+        background-color: firebrick;
+    }
+</style>
+
+</body>
+</html>
