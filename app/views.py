@@ -16,17 +16,15 @@ def index():
     latestDate = dbFights[len(dbFights) - 1].date
     eventName = dbFights[len(dbFights) - 1].event # -- pass to template
 
+    # get latest fights
     for fight in dbFights:
         if(fight.date == latestDate):
             fights.append(fight)
 
-    return render_template('newIndex.html', fights=fights, event_name=eventName)
+    loggedIn = currentUser != None #-- true if user is logged in
 
-    # if currentUser:
-    #     return render_template('index.html', logged_in=True,
-    #                            user_name=currentUser, fights=fights,
-    #                            event_name=eventName)
-    # return render_template('index.html', logged_in=False, fights=fights, event_name=eventName)
+    return render_template('newIndex.html', fights=fights, event_name=eventName,
+                           logged_in=loggedIn)
 
 @app.route('/signup')
 def signUp():
@@ -90,12 +88,14 @@ def signInUser():
             user = models.User.query.filter_by(email=request.form['email']).first()
 
             if user and user.password == request.form['password']:
+                # correct email & password
                 session['username'] = user.name
                 session['email'] = request.form['email']
 
                 return redirect(url_for('index'))
 
             else:
+                # incorrect login
                 return render_template('login.html', incorrect_login=True)
 
 @app.route('/placeBets')
@@ -144,6 +144,10 @@ def createBet(fightID):
                 print("New bet added to database")
 
                 return jsonify(status="ok")
+
+@app.route('/newlogin')
+def newlogin():
+    return render_template('newLogin.html', logged_in=False)
 
 
 def getCurrentUser():

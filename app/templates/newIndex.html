@@ -23,7 +23,7 @@
 
     <!-- NAVBAR (w/ mobile collapse) -->
     <nav>
-      <div class="nav-wrapper black ">
+      <div class="nav-wrapper red darken-1">
         <a href="#!" class="brand-logo center">LOGO</a>
         <a href="#" data-activates="mobile-menu" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
         <ul class="side-nav" id="mobile-menu">
@@ -33,24 +33,30 @@
             <li>
               <div class="divider"></div>
             </li>
-            <li><a href="#"><i class="small material-icons">perm_identity</i>Sign In</a>
-            </li>
+            {% if logged_in %}
+              <li><a href="/logout"><i class="small material-icons">input</i>Logout</a></li>
+            {% else %}
+              <li><a href="/login"><i class="small material-icons">perm_identity</i>Sign In</a></li>
+            {% endif %}
+            <li><a href="/signup"><i class="small material-icons">assignment</i>Register</a></li>
         </ul>
       </div>
     </nav> <br />
+
+{% block page_content %} <!-- unique content for page -->
 
     <div class="container">
 
         <!-- Register Button -->
         <div class="section center-align">
-            <h3 class=>MMA Betting Simulator!</h3>
-            <a class="waves-effect waves-light btn-large red lighten-2 black-text z-depth-4">
+            <h3>MMA Betting Simulator!</h3>
+            <a class="waves-effect waves-light btn-large red darken-1 white-text z-depth-4">
                 <i class="material-icons right">assignment_ind</i>Register Now!
             </a>
         </div>
 
         <!-- Website Description -->
-        <div class="card-panel black z-depth-4">
+        <div class="card-panel z-depth-4 red darken-2">
             <p class="flow-text">
                 <span class="white-text">
                     Mixed Martial Bets is the #1 MMA Betting Simulator in the world.
@@ -64,18 +70,28 @@
         <!-- NATE DIAZ PIC -->
         <!-- <img class="responsive-img" src="natediaz.jpg"> -->
 
-        <div class="center-align white-text">
+        <div class="center-align">
           <h3>{{event_name}}</h3>
         </div>
 
         <!-- Fight Table -->
-        <div class="black white-text z-depth-4">
-            <table class="responsive-table">
+        <div class="red darken-2 white-text z-depth-4">
+            <table class="responsive-table bordered">
+              <thead class="black-text">
+                <th>Fighter A</th>
+                <th>Odd A</th>
+                <th>Fighter B</th>
+                <th>Odd B</th>
+              </thead>
               <tbody>
                 <!-- Fight Loop -->
                 {% for fight in fights %}
                 <tr>
-                  <td>{{fight.fighterA}}</td>
+                  {% if fight.result == 1 %}
+                    <td style="background-color:green;">{{fight.fighterA}}</td>
+                  {% else %}
+                    <td>{{fight.fighterA}}</td>
+                  {% endif %}
 
                   <!-- Odd A -->
                   {% if fight.oddA > 0 %}
@@ -84,22 +100,17 @@
                     <td>{{fight.oddA}}</td>
                   {% endif %}
 
-                  <td>{{fight.fighterB}}</td>
+                  {% if fight.result == 2 %}
+                    <td style="background-color:green;">{{fight.fighterB}}</td>
+                  {% else %}
+                    <td>{{fight.fighterB}}</td>
+                  {% endif %}
 
                   <!-- Odd B -->
                   {% if fight.oddB > 0 %}
                     <td>+{{fight.oddB}}</td>
                   {% else %}
                     <td>{{fight.oddB}}</td>
-                  {% endif %}
-
-                  <!-- Fight Result -->
-                  {% if fight.result != 0 %}
-                    {% if fight.result == 1 %}
-                      <td>{{fight.fighterA}}</td>
-                    {% else %}
-                      <td>{{fight.fighterB}}</td>
-                    {% endif %}
                   {% endif %}
                 </tr>
                 {% endfor %}
@@ -111,13 +122,25 @@
 
     </div>  <!-- /.container -->
 
+
+<style>
+  .fight_winner {
+    /*color: rgb(20,175,20);*/
+    color: black;
+    background-color: green;
+    font: 20pt;
+  }
+</style>
+
+{% endblock %} <!-- end of page content block -->
+
 <script>
     $(".button-collapse").sideNav();
 </script>
 
 <style>
     html {
-        background-color: firebrick;
+        background-color: white;
     }
 </style>
 
