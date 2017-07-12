@@ -45,9 +45,10 @@ def logout():
 
 @app.route('/registerUser', methods=["POST", "GET"])
 def registerUser():
+    print(request.form)
     if request.method == "POST":
         # check if form is empty
-        if not request.form['name'] or not request.form['email'] or not request.form['password']:
+        if not request.form['username'] or not request.form['email'] or not request.form['password']:
             return render_template("signUp.html", empty_form=True, emailError=True)
 
         else:
@@ -149,6 +150,9 @@ def createBet(fightID):
 def newlogin():
     return render_template('newLogin.html', logged_in=False)
 
+@app.route('/newsignup')
+def newSignUp():
+    return render_template('newSignUp.html', logged_in=False)
 
 def getCurrentUser():
     currentUser = None
