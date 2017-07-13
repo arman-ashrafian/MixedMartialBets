@@ -23,15 +23,15 @@
 
     <!-- NAVBAR (w/ mobile collapse) -->
     <nav>
-      <div class="nav-wrapper red darken-1">
-        <a href="#!" class="brand-logo center">LOGO</a>
-        <a href="#" data-activates="mobile-menu" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
-        <ul class="side-nav" id="mobile-menu">
+      <div class="nav-wrapper red darken-4">
+        <a href="#!" class="brand-logo center black-text">LOGO</a>
+        <a href="#" data-activates="mobile-menu" class="button-collapse black-text show-on-large"><i class="material-icons">menu</i></a>
+        <ul class="side-nav grey" id="mobile-menu">
             <li><a href="#">Home</a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="#">Place Bets</a></li>
             <li>
-              <div class="divider"></div>
+              <div class="divider black"></div>
             </li>
             {% if logged_in %}
               <li><a href="/logout"><i class="small material-icons">input</i>Logout</a></li>
@@ -50,13 +50,13 @@
         <!-- Register Button -->
         <div class="section center-align">
             <h3>MMA Betting Simulator!</h3>
-            <a class="waves-effect waves-light btn-large red darken-1 white-text z-depth-4">
+            <a class="waves-effect waves-light btn-large red darken-4 black-text z-depth-4">
                 <i class="material-icons right">assignment_ind</i>Register Now!
             </a>
         </div>
 
         <!-- Website Description -->
-        <div class="card-panel z-depth-4 red darken-2">
+        <div class="card-panel z-depth-4 black">
             <p class="flow-text">
                 <span class="white-text">
                     Mixed Martial Bets is the #1 MMA Betting Simulator in the world.
@@ -67,17 +67,14 @@
             </p>
         </div>
 
-        <!-- NATE DIAZ PIC -->
-        <!-- <img class="responsive-img" src="natediaz.jpg"> -->
-
         <div class="center-align">
           <h3>{{event_name}}</h3>
         </div>
 
         <!-- Fight Table -->
-        <div class="red darken-2 white-text z-depth-4">
+        <div class="black white-text z-depth-4">
             <table class="responsive-table bordered">
-              <thead class="black-text">
+              <thead class="red-text">
                 <th>Fighter A</th>
                 <th>Odd A</th>
                 <th>Fighter B</th>
@@ -140,7 +137,7 @@
 
 <style>
     html {
-        background-color: white;
+        background-color: rgb(180,180,180);
     }
 </style>
 
