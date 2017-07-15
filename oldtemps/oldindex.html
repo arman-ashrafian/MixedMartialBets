@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>MMA Betting</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style>
+    .page-header {
+      background-color: firebrick;
+      border-width: 0;
+      color: white;
+    }
+
+    .row {
+      background-color: black;
+      height: inherit;
+    }
+
+    body {
+      background-color: firebrick;
+    }
+
+    #fightTable {
+      color: white;
+      font-size: 18pt;
+      text-align: center;
+    }
+
+    #eventName {
+      color: white;
+      font-size: 26pt;
+      text-align: center;
+    }
+  </style>
+
+  {% block addStyle %}{%endblock%}
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/index">MMA BETS</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li {% block homeActive %}class="active" {% endblock %}>
+          <a href="/index">Home</a></li>
+        <li {% block profileActive %}{% endblock %}>
+          <a href="#">Profile</a></li>
+        <li {% block placeBetsActive %}{% endblock %}>
+          <a href="/placeBets">Place Bets</a></li>
+        <li {% block previousEventsActive %}{% endblock %}>
+          <a href="#">Previous Events</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+
+        {% if not logged_in %}
+        <li {% block loginActive %}{% endblock %}>
+          <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% else %}
+        <li><a>{{user_name}}</a></li>
+        <li> <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% endif %}
+        <li {% block signUpActive %}{% endblock %}>
+          <a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  {% block page_content %}
+
+  <div class="container-fluid">
+    <div class="text-center page-header">
+      <h1>MMA BETS</h1>
+      <h3>Test out your MMA betting strategy!</h3>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-1">
+      </div>
+
+      <div class="col-sm-10 text-center" style="background-color:black; height:inherit;">
+        <br>
+        {% if event_over %}
+          <h2 style="text-align:left;color:white">Most Recent Event:</h2>
+        {% else %}
+          <h2 style="text-align:left;color:white">Upcoming Event:</h2>
+        {% endif %}
+        <br /><br />
+        <h3 id="eventName">{{event_name}}</h2>
+          <br><br><br>
+
+          <table class="table" id="fightTable" align="center">
+            <!-- Table Body -->
+            <tbody>
+              {% for fight in fights %}
+              <tr>
+                <!-- Fighter 1 -->
+                <td>{{ fight.fighterA }}</td>
+                {% if fight.oddA > 0 %}
+                <td>+{{ fight.oddA }}</td>
+                {% else %}
+                <td>{{ fight.oddA }}</td>
+                {% endif %}
+                <!-- Fighter 2 -->
+                <td>{{ fight.fighterB }}</td>
+                {% if fight.oddB > 0 %}
+                <td>+{{ fight.oddB }}</td>
+                {% else %}
+                <td>{{ fight.oddB }}</td>
+                {% endif %}
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      </div>
+
+      <div class="col-sm-1 "></div>
+    </div>
+  </div>
+
+  {% endblock %}
+</body>
+
+</html>

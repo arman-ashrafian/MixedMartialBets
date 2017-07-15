@@ -2,132 +2,146 @@
 <html lang="en">
 
 <head>
-  <title>MMA Betting</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
 
-  <style>
-    .page-header {
-      background-color: firebrick;
-      border-width: 0;
-      color: white;
-    }
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
 
-    .row {
-      background-color: black;
-      height: inherit;
-    }
-
-    body {
-      background-color: firebrick;
-    }
-
-    #fightTable {
-      color: white;
-      font-size: 18pt;
-      text-align: center;
-    }
-
-    #eventName {
-      color: white;
-      font-size: 26pt;
-      text-align: center;
-    }
-  </style>
-
-  {% block addStyle %}{%endblock%}
-
+    <title>Mixed Martial Bets</title>
 </head>
 
 <body>
+    <!--Import jQuery-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Import Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    <!-- SETUP DONE -->
 
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/index">MMA BETS</a>
+    <!-- NAVBAR (w/ mobile collapse) -->
+    <nav>
+      <div class="nav-wrapper red darken-4">
+        <a href="/" class="brand-logo center black-text">
+          MixedMartialBets
+        </a>
+        <a href="#" data-activates="mobile-menu" class="button-collapse black-text show-on-large"><i class="material-icons">menu</i></a>
+        <ul class="side-nav white" id="mobile-menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Place Bets</a></li>
+            <li>
+              <div class="divider black"></div>
+            </li>
+            {% if logged_in %}
+              <li><a href="/logout"><i class="small material-icons">input</i>Logout</a></li>
+            {% else %}
+              <li><a href="/login"><i class="small material-icons">perm_identity</i>Sign In</a></li>
+            {% endif %}
+            <li><a href="/signup"><i class="small material-icons">assignment</i>Register</a></li>
+        </ul>
       </div>
-      <ul class="nav navbar-nav">
-        <li {% block homeActive %}class="active" {% endblock %}>
-          <a href="/index">Home</a></li>
-        <li {% block profileActive %}{% endblock %}>
-          <a href="#">Profile</a></li>
-        <li {% block placeBetsActive %}{% endblock %}>
-          <a href="/placeBets">Place Bets</a></li>
-        <li {% block previousEventsActive %}{% endblock %}>
-          <a href="#">Previous Events</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
+    </nav> <br />
 
-        {% if not logged_in %}
-        <li {% block loginActive %}{% endblock %}>
-          <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        {% else %}
-        <li><a>{{user_name}}</a></li>
-        <li> <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        {% endif %}
-        <li {% block signUpActive %}{% endblock %}>
-          <a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      </ul>
-    </div>
-  </nav>
+{% block page_content %} <!-- unique content for page -->
 
-  {% block page_content %}
+    <div class="container">
 
-  <div class="container-fluid">
-    <div class="text-center page-header">
-      <h1>MMA BETS</h1>
-      <h3>Test out your MMA betting strategy!</h3>
-    </div>
+        <!-- Register Button -->
+        <div class="section center-align">
+            <h3>MMA Betting Simulator!</h3>
+            <a class="waves-effect waves-light btn-large red darken-4 black-text z-depth-4">
+                <i class="material-icons right">assignment_ind</i>Register Now!
+            </a>
+        </div>
 
-    <div class="row">
-      <div class="col-sm-1">
-      </div>
+        <!-- Website Description -->
+        <div class="card-panel z-depth-4 black">
+            <p class="flow-text">
+                <span class="white-text">
+                    Mixed Martial Bets is the #1 MMA Betting Simulator in the world.
+                    Our service is 100% Free and is meant to make watching MMA fights
+                    more enjoyable. Test out your MMA knowledge and practice your betting
+                    strategy before you move on to making real bets.
+                </span>
+            </p>
+        </div>
 
-      <div class="col-sm-10 text-center" style="background-color:black; height:inherit;">
-        <br>
-        {% if event_over %}
-          <h2 style="text-align:left;color:white">Most Recent Event:</h2>
-        {% else %}
-          <h2 style="text-align:left;color:white">Upcoming Event:</h2>
-        {% endif %}
-        <br /><br />
-        <h3 id="eventName">{{event_name}}</h2>
-          <br><br><br>
+        <div class="center-align">
+          <h3>{{event_name}}</h3>
+        </div>
 
-          <table class="table" id="fightTable" align="center">
-            <!-- Table Body -->
-            <tbody>
-              {% for fight in fights %}
-              <tr>
-                <!-- Fighter 1 -->
-                <td>{{ fight.fighterA }}</td>
-                {% if fight.oddA > 0 %}
-                <td>+{{ fight.oddA }}</td>
-                {% else %}
-                <td>{{ fight.oddA }}</td>
-                {% endif %}
-                <!-- Fighter 2 -->
-                <td>{{ fight.fighterB }}</td>
-                {% if fight.oddB > 0 %}
-                <td>+{{ fight.oddB }}</td>
-                {% else %}
-                <td>{{ fight.oddB }}</td>
-                {% endif %}
-                
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-      </div>
+        <!-- Fight Table -->
+        <div class="black white-text z-depth-4">
+            <table class="responsive-table bordered">
+              <thead class="red-text">
+                <th>Fighter A</th>
+                <th>Odd A</th>
+                <th>Fighter B</th>
+                <th>Odd B</th>
+              </thead>
+              <tbody>
+                <!-- Fight Loop -->
+                {% for fight in fights %}
+                <tr>
+                  {% if fight.result == 1 %}
+                    <td style="background-color:green;">{{fight.fighterA}}</td>
+                  {% else %}
+                    <td>{{fight.fighterA}}</td>
+                  {% endif %}
 
-      <div class="col-sm-1 "></div>
-    </div>
-  </div>
+                  <!-- Odd A -->
+                  {% if fight.oddA > 0 %}
+                    <td>+{{fight.oddA}}</td>
+                  {% else %}
+                    <td>{{fight.oddA}}</td>
+                  {% endif %}
 
-  {% endblock %}
+                  {% if fight.result == 2 %}
+                    <td style="background-color:green;">{{fight.fighterB}}</td>
+                  {% else %}
+                    <td>{{fight.fighterB}}</td>
+                  {% endif %}
+
+                  <!-- Odd B -->
+                  {% if fight.oddB > 0 %}
+                    <td>+{{fight.oddB}}</td>
+                  {% else %}
+                    <td>{{fight.oddB}}</td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+
+        <div style="height:100px;"></div>
+
+    </div>  <!-- /.container -->
+
+
+<style>
+  .fight_winner {
+    /*color: rgb(20,175,20);*/
+    color: black;
+    background-color: green;
+    font: 20pt;
+  }
+</style>
+
+{% endblock %} <!-- end of page content block -->
+
+<script>
+    $(".button-collapse").sideNav();
+</script>
+
+<style>
+    html {
+        background-color: rgb(50.50,50);
+    }
+</style>
+
 </body>
-
 </html>

@@ -23,7 +23,7 @@ def index():
 
     loggedIn = currentUser != None #-- true if user is logged in
 
-    return render_template('newIndex.html', fights=fights, event_name=eventName,
+    return render_template('index.html', fights=fights, event_name=eventName,
                            logged_in=loggedIn)
 
 @app.route('/signup')
@@ -45,8 +45,9 @@ def logout():
 
 @app.route('/registerUser', methods=["POST", "GET"])
 def registerUser():
-    print(request.form)
     if request.method == "POST":
+        print(request.form)
+
         # check if form is empty
         if not request.form['username'] or not request.form['email'] or not request.form['password']:
             return render_template("signUp.html", empty_form=True, emailError=True)
@@ -65,7 +66,8 @@ def registerUser():
 
                 db.session.add(newUser)
                 db.session.commit()
-                return redirect(url_for('index'))
+                #return redirect(url_for('index'))
+                return jsonify(status=ok)
             else:
                 # email already exists
                 emailErr = False
@@ -75,7 +77,8 @@ def registerUser():
                 if(nameQuery):
                     nameErr = True
                 return render_template("signUp.html", empty_form=False, emailError=emailErr, nameError=nameErr)
-    return render_template("signUp.html")
+    # return render_template("signUp.html")
+    return jsonify(status="bad")
 
 
 @app.route('/signInUser', methods=['POST', 'GET'])
