@@ -38,7 +38,7 @@
 
     <br />
     <center>
-      <div class='row center-align'>
+      <div class='row center-align' id="buttonDiv">
         <button class='col s12 btn btn-large waves-effect red darken-2 black-text' onclick="submitForm()">
             Register</button>
       </div>
@@ -65,8 +65,24 @@
                 password: passwordInput
               },
               function(data) {
-                console.log(data)
-              })
+                console.log(data);
+
+                if(data['status'] === 'ok') {
+                  window.location.replace('/');
+                } else {
+
+                  if(data['error'] === 'empty_form') {
+                    $('#registerCard').append('<h5 class="error_message">Form cannot be empty!</h5>');
+                  } else {
+                    if(data['email'] === 'True') {
+                      $('#registerCard').append('<h5 class="error_message">Email already in use!</h5>');
+                    }
+                    if(data['name'] === 'True') {
+                      $('#registerCard').append('<h5 class="error_message">Username has been taken!</h5>');
+                    }
+                  }
+                }
+              });
     }
   }
 
@@ -77,6 +93,12 @@
     /*display: inline-block;*/
     padding: 32px 80px 20px 80px;
     border: 1px solid #EEE;
+  }
+
+  .error_message {
+    padding-top: 20px;
+    color: red;
+    font: bold;
   }
 </style>
 

@@ -2,8 +2,26 @@ from app import app
 from app import scraper
 from app import db
 from app import models
+from app import admin
 from flask import render_template, request, session, redirect, url_for, jsonify
+from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
+
+# AdminModelView
+# - auth logic for admin page
+# - obviously not very secure
+class AdminModelView(ModelView):
+
+    def is_accessible(self):
+        return session['username'] == 'admin' and session['email'] == 'admin@admin.com'
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('index'))
+
+# Admin Views
+admin.add_view(AdminModelView(models.Fight, db.session))
+admin.add_view(AdminModelView(models.User, db.session))
+admin.add_view(AdminModelView(models.Bet, db.session))
 
 @app.route('/')
 @app.route('/index')
@@ -46,28 +64,27 @@ def logout():
 @app.route('/registerUser', methods=["POST", "GET"])
 def registerUser():
     if request.method == "POST":
-        print(request.form)
 
         # check if form is empty
         if not request.form['username'] or not request.form['email'] or not request.form['password']:
-            return render_template("signUp.html", empty_form=True, emailError=True)
+            return jsonify(status='bad', error='empty_form')
 
         else:
             # check if email/username already exists in database
             emailQuery = models.User.query.filter_by(email=request.form['email']).first()
-            nameQuery = models.User.query.filter_by(name=request.form['name']).first()
+            nameQuery = models.User.query.filter_by(name=request.form['username']).first()
 
             if (not emailQuery and not nameQuery):
                 # add User to database
-                newUser = models.User(request.form['name'], request.form['email'], request.form['password'], 0)
+                newUser = models.User(request.form['username'], request.form['email'], request.form['password'], 1000)
 
-                session['username'] = request.form['name']
+                session['username'] = request.form['username']
                 session['email'] = request.form['email']
 
                 db.session.add(newUser)
                 db.session.commit()
-                #return redirect(url_for('index'))
-                return jsonify(status=ok)
+
+                return jsonify(status='ok')
             else:
                 # email already exists
                 emailErr = False
@@ -76,8 +93,8 @@ def registerUser():
                     emailErr = True
                 if(nameQuery):
                     nameErr = True
-                return render_template("signUp.html", empty_form=False, emailError=emailErr, nameError=nameErr)
-    # return render_template("signUp.html")
+                return jsonify(status='bad', error='info', email=str(emailErr), name=str(nameErr))
+
     return jsonify(status="bad")
 
 

@@ -23,7 +23,7 @@ class Fight(db.Model):
         self.fighterB = fighterB
         self.oddB = oddB
 
-    # print
+    # print method
     def __repr__(self):
         return self.fighterA + " vs. " + self.fighterB
 
@@ -42,6 +42,10 @@ class User(db.Model):
         self.password = password
         self.balance = balance
 
+    # print method
+    def __repr__(self):
+        return self.name + " - id: " + str(self.id)
+
 class Bet(db.Model):
 
     id = db.Column('id', db.Integer, primary_key=True, unique=True)
@@ -53,3 +57,7 @@ class Bet(db.Model):
         self.fightID = fightID
         self.userID = userID
         self.amount = amount
+
+    # print method
+    def __repr__(self):
+        return "id: " + str(self.id)

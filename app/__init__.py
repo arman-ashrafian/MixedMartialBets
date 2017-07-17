@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import and_
+from flask_admin import Admin
 import os
 import schedule
 from threading import Thread
@@ -15,6 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(base_dir, 'd
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'supersecretkey'
 db = SQLAlchemy(app)
+admin = Admin(app)
 
 from app import views, models, scraper
 
