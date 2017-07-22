@@ -1,3 +1,7 @@
+# INIT
+# - this file initializes the flask app and sets up the background task
+#   to scrape the fight odds
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import and_
@@ -74,4 +78,4 @@ def scheduleTask():
     t.start()
     print("Starting Background Task")
 
-# scheduleTask() # starts background thread
+# scheduleTask() # -- starts background thread

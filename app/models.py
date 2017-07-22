@@ -1,3 +1,7 @@
+# MODELS
+# - contains the database models
+# - Models: Fight, User, Bet
+
 from app import db
 
 class Fight(db.Model):

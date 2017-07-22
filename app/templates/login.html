@@ -33,6 +33,10 @@
         </div>
       </center>
     </form>
+
+    {% if incorrect_login %}
+    <h5 id="error_message">Incorrect Login</h5>
+    {% endif %}
   </div>
 </div>
 
@@ -41,6 +45,10 @@
     display: inline-block;
     padding: 32px 80px 20px 80px;
     border: 1px solid #EEE;
+  }
+
+  #error_message {
+    color: red;
   }
 </style>
 

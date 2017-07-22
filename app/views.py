@@ -1,3 +1,6 @@
+# VIEWS
+# - routes and template rendering
+
 from app import app
 from app import scraper
 from app import db
@@ -13,8 +16,10 @@ from datetime import datetime
 class AdminModelView(ModelView):
 
     def is_accessible(self):
-        return session['username'] == 'admin' and session['email'] == 'admin@admin.com'
-
+        try:
+            return session['username'] == 'admin' and session['email'] == 'admin@admin.com'
+        except KeyError:
+            return False
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('index'))
 
@@ -166,13 +171,10 @@ def createBet(fightID):
 
                 return jsonify(status="ok")
 
-@app.route('/newlogin')
-def newlogin():
-    return render_template('newLogin.html', logged_in=False)
+@app.route('/newplacebets')
+def newPlaceBets():
+    return render_template('newPlaceBets.html')
 
-@app.route('/newsignup')
-def newSignUp():
-    return render_template('newSignUp.html', logged_in=False)
 
 def getCurrentUser():
     currentUser = None
