@@ -124,11 +124,10 @@ def signInUser():
                 # incorrect login
                 return render_template('login.html', incorrect_login=True)
 
-@app.route('/placeBets')
+@app.route('/placebets')
 def placeBets():
     user = getCurrentUser()
-    loggedIn = False
-    if user: loggedIn = True
+    loggedIn = user != None
     allFights = models.Fight.query.all()
     eventName = allFights[-1].event
 
@@ -139,6 +138,8 @@ def placeBets():
 
     return render_template('placeBets.html', event_name=eventName,
                            fights=fights, user_name=user, logged_in=loggedIn)
+
+
 
 @app.route('/createBet/<int:fightID>', methods = ['POST'])
 def createBet(fightID):
@@ -170,22 +171,6 @@ def createBet(fightID):
                 print("New bet added to database")
 
                 return jsonify(status="ok")
-
-@app.route('/newplacebets')
-def newPlaceBets():
-    user = getCurrentUser()
-    loggedIn = user != None
-    allFights = models.Fight.query.all()
-    eventName = allFights[-1].event
-
-    fights = []
-    for fight in allFights:
-        if(fight.event == eventName):
-            fights.append(fight)
-
-    return render_template('newPlaceBets.html', event_name=eventName,
-                           fights=fights, user_name=user, logged_in=loggedIn)
-
 
 
 def getCurrentUser():

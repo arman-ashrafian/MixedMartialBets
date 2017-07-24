@@ -1,142 +1,175 @@
-{% extends "index.html" %}
+{% extends "index.html" %} {% block page_content %}
 
-{% block addStyle %}
 
-<style>
-  #betDiv {
-    background-color: rgb(45, 40, 40);
-    color: black;
-    font-size: 18pt;
-    text-align: left;
-    border-color: black;
-  }
-</style>
+<div class="container">
+
+  <ul id="dropdown2" class="dropdown-content">
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+  <a class="btn dropdown-button red darken-4" data-activates="dropdown2">More Events<i class="material-icons right">arrow_drop_down</i></a>
+
+
+  <div class="black z-depth-2">
+      <h3 class="center-align flow-text white-text"><b>{{event_name}}</b></h3>
+  </div>
+
+{% for fight in fights %}
+<!-- Fight Card -->
+  <div class="card grey lighten-2 z-depth-2">
+
+    <div class="container">
+      <div class="card-content black-text">
+
+        <div class="row center-align">
+          <div class="col s5 z-depth-2" id="fighter_{{fight.id}}_1">
+            <p class="flow-text" onclick="choose({{fight.id}}, 1);">
+              <b>{{fight.fighterA}}<br />{{fight.oddA}}</b>
+            </p>
+          </div>
+
+          <div class="col 2">
+            <p class="flow-text"><b>vs.</b></p>
+          </div>
+
+          <div class="col s5 z-depth-2" id="fighter_{{fight.id}}_2">
+            <p class="flow-text" onclick="choose({{fight.id}}, 2);">
+              <b>{{fight.fighterB}}<br />{{fight.oddB}}</b>
+            </p>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-action">
+
+        <div class="row">
+          <div class="input-field col s6">
+            <i class="material-icons prefix">attach_money</i>
+            <!-- set min and max to user's account balance -->
+            <input id="betAmount{{fight.id}}" type="number" autocomplete="off">
+            <label for="betAmount{{fight.id}}">Bet Amount</label>
+          </div>
+          <div class="col s6 right-align">
+            <a id="button{{fight.id}}" class="btn-floating btn-large waves-effect waves-light red">
+              <i class="material-icons" onclick="submitBet({{fight.id}}, {
+                fighterA: '{{fight.fighterA}}',
+                fighterB: '{{fight.fighterB}}'});">send</i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><br><br>
+<!-- END OF FIGHT CARD -->
+{% endfor %}
+
+</div>
 
 <script>
-  function placeBets(fightID) {
-    var radioButtonName = 'fighter' + fightID;
-    var fighter = $('input[name="' + radioButtonName + '"]:checked').val();
-    var betAmount = parseInt($('#betAmount' + fightID).val());
 
-    if (isNaN(betAmount)) {
-      /* show error message to user */
-      confirm("Inavlid Bet Amount");
-      $('#betAmount' + fightID).val(''); // clear bet input
+  // choose fighter highlight
+  function choose(fightID, fighter) {
+    let otherFighter;
+    if(fighter === 1) {
+      otherFighter = $("#fighter_"+ fightID + "_2")
+    } else {
+      otherFighter = $("#fighter_"+ fightID + "_1")
     }
-    else if(fighter == null) {
-      confirm("Please Select a Fighter");
-    }
-    else {
-      $.post('/createBet/' + fightID,
-            {
-              fighter: fighter,
-              betAmount: betAmount
-            },
-            function(data) {
-              console.log(data);
+    const chosenFighter = $("#fighter_"+ fightID + "_" + fighter);
 
-              if(data['status'] == 'bad' ) {
-                // not logged in
-                if(data['error'] == 'login') {
-                  if(confirm("Please login to place a bet")) {
-                    window.location.replace('/login');
-                  }
-                }
-                // insufficient funds
-                else {
-                  confirm("Insufficient Funds.\n\nCurrent Balance: $" + data['balance']);
-                  $('#betAmount' + fightID).val(''); // clear bet input
+    chosenFighter.addClass('red');
+    otherFighter.removeClass('red');
+  }
+
+  // submit bet to database
+  // - this function works but needs some love
+  function submitBet(fightID, fightObj) {
+    let betAmount = parseInt($("#betAmount" + fightID).val());
+
+    // IF betAmount is NaN RETURN
+    if(isNaN(betAmount)) {
+      alert("Invalid Bet Amount!");
+      $("#betAmount" + fightID).val(''); // clear bet amount
+      return;
+    }
+
+    // determine chosen fighter
+    let chosenFighter = $("#fighter_"+ fightID + "_1");
+    let chosenFighterNum = 1;
+    if(!chosenFighter.hasClass('red')) {
+      chosenFighter = $("#fighter_"+ fightID + "_2");
+      chosenFighterNum = 2;
+      if(!chosenFighter.hasClass('red')) {
+        alert("Please Select a Fighter!");
+        return;
+      }
+    }
+
+    // determine chosen fighter name
+    let chosenFighterName = chosenFighterNum == 1 ? fightObj['fighterA'] :
+                                                    fightObj['fighterB'];
+
+    // create json obj to post to server
+    let fight = {
+      fighter: chosenFighterName,
+      betAmount: betAmount
+    };
+
+    $.post('/createBet/' + fightID,
+          fight,
+          function(data) {
+            console.log(data);
+
+            if(data['status'] == 'bad' ) {
+              // not logged in
+              if(data['error'] == 'login') {
+                if(confirm("Please login to place a bet")) {
+                  window.location.replace('/login');
                 }
               }
-              // Success
+              // insufficient funds
               else {
-                var button = $("#button" + fightID);
-                button.removeClass("btn-danger");
-                button.addClass("btn-success");
-
+                confirm("Insufficient Funds.\n\nCurrent Balance: $" + data['balance']);
+                $('#betAmount' + fightID).val(''); // clear bet input
               }
-            })
-    }
+            }
+            // Success
+            else {
+              changeButton(fightID);
+            }
+          })
+
+  }
+
+  function changeButton(fightID) {
+    let button = $("#button" + fightID);
+
+    button.removeClass('red');
+    button.addClass('disabled'); // disable button
+
+    // change button icon
+    let icon = button.children();
+    icon.addClass('green')
+    icon.text('check');
   }
 
 </script>
 
-{% endblock %}
-{% block homeActive %}{% endblock %}
-{% block placeBetsActive %}class="active"{% endblock %}
+<style>
 
-{% block page_content%}
-<div class="container-fluid">
+  /* get rid of digit scroller for number input */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /*********************************************/
 
-  <br>
-  <h2 style="text-align:left;color:white">Upcoming Event:</h2>
-  <h3 id="eventName">{{event_name}}</h2>
-
-    <div class="row">
-
-      <div class="col-sm-3">
-        </div>
-
-      <div class="col-sm-6">
-        <br /><br />
-        {% for fight in fights %}
-        <div id="betDiv" class="well">
-          <form id="form{{fight.id}}" action="/createBet/{{fight.id}}" method="POST">
-            <div class="row" style="height:inherit;background-color:inherit">
-              <div class="col-sm-9">
-                <label>
-                <input type="radio" name="fighter{{fight.id}}" value="fighterA">
-                {{fight.fighterA}}
-              </label>
-              </div>
-              <div class="col-sm-3">
-                {% if fight.oddA < 0 %}
-                <label style="padding-top:10px">{{fight.oddA}}</label>
-                {% else %}
-                <label style="padding-top:10px">+{{fight.oddA}}</label>
-                {% endif %}
-              </div>
-            </div>
-
-            <div class="row" style="height:inherit;background-color:inherit">
-              <div class="col-sm-9">
-                <label>
-                <input type="radio" name="fighter{{fight.id}}" value="fighterB">
-                {{fight.fighterB}}
-              </label>
-              </div>
-              <div class="col-sm-3">
-                {% if fight.oddB < 0 %}
-                <label style="padding-top:10px">{{fight.oddB}}</label>
-                {% else %}
-                <label style="padding-top:10px">+{{fight.oddB}}</label>
-                {% endif %}
-              </div>
-            </div>
-
-            <div class="row" style="background-color:inherit">
-              <div class="col-sm-4">
-                <input id="betAmount{{fight.id}}" type="text" class="form-control" name="betAmount" placeholder="Bet Amount" />
-              </div>
-              <div class="col-sm-4">
-              </div>
-              <div class="col-sm-4">
-                <button id="button{{fight.id}}" type="button" onclick="placeBets({{fight.id}})" class="btn btn-sm btn-danger btn-block">
-                      Place Bet
-              </button>
-              </div>
-            </div>
-          </form>
-        </div><br /><br />
-        {% endfor %}
-      </div>
-    </div>
-</div>
-
-<div class="col-sm-3">
-  </div>
-
-</div>
-</div>
+</style>
 
 {% endblock %}
