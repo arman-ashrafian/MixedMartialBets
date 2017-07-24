@@ -25,7 +25,13 @@
         <div class="row center-align">
           <div class="col s5 z-depth-2" id="fighter_{{fight.id}}_1">
             <p class="flow-text" onclick="choose({{fight.id}}, 1);">
-              <b>{{fight.fighterA}}<br />{{fight.oddA}}</b>
+              <b>{{fight.fighterA}}<br />
+                {% if fight.oddA > 0 %}
+                  +{{fight.oddA}}
+                {% else %}
+                  {{fight.oddA}}
+                {% endif %}
+              </b>
             </p>
           </div>
 
@@ -35,7 +41,13 @@
 
           <div class="col s5 z-depth-2" id="fighter_{{fight.id}}_2">
             <p class="flow-text" onclick="choose({{fight.id}}, 2);">
-              <b>{{fight.fighterB}}<br />{{fight.oddB}}</b>
+              <b>{{fight.fighterB}}<br />
+                {% if fight.oddB > 0 %}
+                  +{{fight.oddB}}
+                {% else %}
+                  {{fight.oddB}}
+                {% endif %}
+              </b>
             </p>
           </div>
         </div>

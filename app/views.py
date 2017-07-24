@@ -144,9 +144,9 @@ def placeBets():
 @app.route('/createBet/<int:fightID>', methods = ['POST'])
 def createBet(fightID):
     '''
-    Add new Bet to the database
-    Error Checking:
-    User not logged in - redirect to login
+    - Add new Bet to the database
+    - Error Checking:
+    - IF User not logged in -> redirect to login
     '''
     if request.method == 'POST':
         user = getCurrentUser()
