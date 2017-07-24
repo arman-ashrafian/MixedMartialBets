@@ -173,7 +173,19 @@ def createBet(fightID):
 
 @app.route('/newplacebets')
 def newPlaceBets():
-    return render_template('newPlaceBets.html')
+    user = getCurrentUser()
+    loggedIn = user != None
+    allFights = models.Fight.query.all()
+    eventName = allFights[-1].event
+
+    fights = []
+    for fight in allFights:
+        if(fight.event == eventName):
+            fights.append(fight)
+
+    return render_template('newPlaceBets.html', event_name=eventName,
+                           fights=fights, user_name=user, logged_in=loggedIn)
+
 
 
 def getCurrentUser():
