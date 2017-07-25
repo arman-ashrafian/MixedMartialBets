@@ -184,7 +184,6 @@ def profile():
     else:
         # get user
         userQuery = models.User.query.filter_by(name=user).first()
-        accountBalance = userQuery.balance
 
         # get user's bets
         bets = models.Bet.query.filter_by(userID=userQuery.id)
@@ -213,6 +212,8 @@ def profile():
             if fight.result == 0:
                 bets_pending.append(bet)
                 fights_pending.append(fight)
+
+        accountBalance = userQuery.balance + sum(payouts)
 
         return render_template('profilePage.html', logged_in=loggedIn,
                                user_name=user, account_balance=accountBalance,
