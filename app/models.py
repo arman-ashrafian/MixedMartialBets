@@ -55,12 +55,14 @@ class Bet(db.Model):
     id = db.Column('id', db.Integer, primary_key=True, unique=True)
     fightID = db.Column(db.Integer)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'))
+    fighter = db.Column(db.String(100))
     amount = db.Column(db.Float)
 
-    def __init__(self, fightID, userID, amount):
+    def __init__(self, fightID, userID, amount, fighter):
         self.fightID = fightID
         self.userID = userID
         self.amount = amount
+        self.fighter = fighter
 
     # print method
     def __repr__(self):

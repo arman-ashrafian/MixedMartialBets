@@ -1,0 +1,63 @@
+{% extends "index.html" %} {% block page_content %}
+
+<div class="container center-align">
+
+  <h1>{{user_name}}</h1>
+  <h3>Account Balance: <b>${{account_balance}}</b></h3>
+
+
+  <h5 class="left-align flow-text">PENDING BETS</h5>
+  <div class="grey lighten-2 black-text z-depth-4">
+    <table class="responsive-table bordered">
+      <thead class="red-text">
+        <th>Fight Date</th>
+        <th>Fight</th>
+        <th>Bet Amount</th>
+      </thead>
+      <tbody>
+        {% for bet, fight in pending_bets %}
+
+          <tr>
+            <td>{{fight.date}}</td>
+            <td>{{fight}}</td>
+            <td>$ {{bet.amount}}</td>
+          </tr>
+
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
+  <br><br>
+
+  <h5 class="left-align flow-text">COMPLETED BETS</h5>
+  <div class="grey lighten-2 black-text z-depth-4">
+    <table class="responsive-table bordered">
+      <thead class="red-text">
+        <th>Fight Date</th>
+        <th>Fight</th>
+        <th>Bet Amount</th>
+        <th>Payout</th>
+      </thead>
+      <tbody>
+        {% for bet, fight, payout in completed_bets %}
+
+          <tr>
+            <td>{{fight.date}}</td>
+            <td>{{fight}}</td>
+            <td>${{bet.amount}}</td>
+            <td>${{'%.2f' % payout}}</td>
+          </tr>
+
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
+<div style="height:100px;"></div>
+
+</div>
+
+{% endblock %}
