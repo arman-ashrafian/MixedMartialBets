@@ -185,15 +185,29 @@ def profile():
 
         # get user's bets
         bets = models.Bet.query.filter_by(userID=userQuery.id)
-        fights = []
+        bets_completed = []
+        fights_completed = []
 
-        # get the fights the user bet on
+        # get the completed fights the user bet on
         for bet in bets:
-            fights.append(models.Fight.query.filter_by(id=bet.fightID).first())
+            fight = models.Fight.query.filter_by(id=bet.fightID).first()
+            if fight.result != 0:
+                bets_completed.append(bet)
+                fights_completed.append(fight)
+
+        # get pending bets & fights
+        bets_pending = []
+        fights_pending = []
+        for bet in bets:
+            fight = models.Fight.query.filter_by(id=bet.fightID).first()
+            if fight.result == 0:
+                bets_pending.append(bet)
+                fights_pending.append(fight)
 
         return render_template('profilePage.html', logged_in=loggedIn,
                                user_name=user, account_balance=accountBalance,
-                               bets=zip(bets, fights))
+                               completed_bets=zip(bets_completed, fights_completed),
+                               pending_bets=zip(bets_pending, fights_pending))
 
 def getCurrentUser():
     currentUser = None
