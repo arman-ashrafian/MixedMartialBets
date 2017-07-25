@@ -41,13 +41,13 @@
         <th>Payout</th>
       </thead>
       <tbody>
-        {% for bet, fight in completed_bets %}
+        {% for bet, fight, payout in completed_bets %}
 
           <tr>
             <td>{{fight.date}}</td>
             <td>{{fight}}</td>
             <td>${{bet.amount}}</td>
-            <td>$100</td>
+            <td>${{'%.2f' % payout}}</td>
           </tr>
 
         {% endfor %}

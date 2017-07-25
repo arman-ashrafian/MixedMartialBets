@@ -164,7 +164,8 @@ def createBet(fightID):
             else:
                 newBet = models.Bet(fightID=fightID,
                                     userID=usermodel.id,
-                                    amount=int(request.form['betAmount']))
+                                    amount=int(request.form['betAmount']),
+                                    fighter=request.form['fighter'])
                 usermodel.balance -= int(request.form['betAmount'])
                 db.session.add(newBet)
                 db.session.commit()
@@ -177,7 +178,9 @@ def profile():
     user = getCurrentUser()
     loggedIn = user != None;
 
+    # redirect to login if !loggedIn
     if not loggedIn: return redirect(url_for('login'))
+
     else:
         # get user
         userQuery = models.User.query.filter_by(name=user).first()
@@ -187,6 +190,7 @@ def profile():
         bets = models.Bet.query.filter_by(userID=userQuery.id)
         bets_completed = []
         fights_completed = []
+        payouts = []
 
         # get the completed fights the user bet on
         for bet in bets:
@@ -194,6 +198,12 @@ def profile():
             if fight.result != 0:
                 bets_completed.append(bet)
                 fights_completed.append(fight)
+                if fight.result == 1:
+                    if bet.fighter == fight.fighterA:
+                        payouts.append(calcPayout(fight.oddA, bet.amount))
+                elif fight.result == 2:
+                    if bet.fighter == fight.fighterB:
+                        payouts.append(calcPayout(fight.oddB, bet.amount))
 
         # get pending bets & fights
         bets_pending = []
@@ -206,7 +216,7 @@ def profile():
 
         return render_template('profilePage.html', logged_in=loggedIn,
                                user_name=user, account_balance=accountBalance,
-                               completed_bets=zip(bets_completed, fights_completed),
+                               completed_bets=zip(bets_completed, fights_completed, payouts),
                                pending_bets=zip(bets_pending, fights_pending))
 
 def getCurrentUser():
@@ -214,3 +224,9 @@ def getCurrentUser():
     if 'username' in session:
         currentUser = session['username']
     return currentUser
+
+def calcPayout(odd, bet):
+    if odd < 0:
+        return abs(bet * (100/odd))
+    else:
+        return abs(bet * (odd/100))
