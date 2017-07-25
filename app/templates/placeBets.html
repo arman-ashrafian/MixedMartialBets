@@ -98,6 +98,16 @@
   </div>
 </div>
 
+<!-- INVALID BET AMOUNT Modal Structure -->
+<div id="modal_bet" class="modal">
+  <div class="modal-content center-align">
+    <h4>Invalid Bet Amount</h4>
+  </div>
+  <div class="modal-footer">
+    <span class="modal-action modal-close waves-effect waves-green btn-flat">OKAY</span>
+  </div>
+</div>
+
 
 </div>
 
@@ -124,7 +134,7 @@
 
     // IF betAmount is NaN RETURN
     if(isNaN(betAmount)) {
-      alert("Invalid Bet Amount!");
+      $("#modal_bet").modal('open');
       $("#betAmount" + fightID).val(''); // clear bet amount
       return;
     }
