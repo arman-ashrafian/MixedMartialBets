@@ -172,6 +172,28 @@ def createBet(fightID):
 
                 return jsonify(status="ok")
 
+@app.route('/profile')
+def profile():
+    user = getCurrentUser()
+    loggedIn = user != None;
+
+    if not loggedIn: return redirect(url_for('login'))
+    else:
+        # get user
+        userQuery = models.User.query.filter_by(name=user).first()
+        accountBalance = userQuery.balance
+
+        # get user's bets
+        bets = models.Bet.query.filter_by(userID=userQuery.id)
+        fights = []
+
+        # get the fights the user bet on
+        for bet in bets:
+            fights.append(models.Fight.query.filter_by(id=bet.fightID).first())
+
+        return render_template('profilePage.html', logged_in=loggedIn,
+                               user_name=user, account_balance=accountBalance,
+                               bets=zip(bets, fights))
 
 def getCurrentUser():
     currentUser = None
