@@ -57,12 +57,14 @@ class Bet(db.Model):
     userID = db.Column(db.Integer, db.ForeignKey('user.id'))
     fighter = db.Column(db.String(100))
     amount = db.Column(db.Float)
+    odd = db.Column(db.Integer)
 
-    def __init__(self, fightID, userID, amount, fighter):
+    def __init__(self, fightID, userID, amount, fighter, odd):
         self.fightID = fightID
         self.userID = userID
         self.amount = amount
         self.fighter = fighter
+        self.odd = odd
 
     # print method
     def __repr__(self):

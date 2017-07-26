@@ -162,10 +162,12 @@ def createBet(fightID):
                 return jsonify(status="bad", error="balance",
                                balance=usermodel.balance)
             else:
+                print("odd " + request.form['odd'])
                 newBet = models.Bet(fightID=fightID,
                                     userID=usermodel.id,
                                     amount=int(request.form['betAmount']),
-                                    fighter=request.form['fighter'])
+                                    fighter=request.form['fighter'],
+                                    odd=int(request.form['odd']))
                 usermodel.balance -= int(request.form['betAmount'])
                 db.session.add(newBet)
                 db.session.commit()

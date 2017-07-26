@@ -36,6 +36,7 @@ def main():
 
     for fight in fightList:
         for bet in bets:
+            if not bet: break
             pay = 0
             if fight.result == 1 and bet.fighter == fight.fighterA:
                 pay = bet.amount + calcPayout(fight.oddA, bet.amount)
@@ -43,7 +44,6 @@ def main():
                 pay = bet.amount + calcPayout(fight.oddB, bet.amount)
 
             user = models.User.query.filter_by(id=bet.userID).first()
-            print(user)
             user.balance += pay
             db.session.add(user)
 

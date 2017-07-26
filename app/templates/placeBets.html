@@ -64,7 +64,9 @@
             <a id="button{{fight.id}}" class="btn-floating btn-large waves-effect waves-light red">
               <i class="material-icons" onclick="submitBet({{fight.id}}, {
                 fighterA: '{{fight.fighterA}}',
-                fighterB: '{{fight.fighterB}}'});">send</i>
+                oddA: '{{fight.oddA}}',
+                fighterB: '{{fight.fighterB}}',
+                oddB: '{{fight.oddB}}'});">send</i>
             </a>
           </div>
         </div>
@@ -155,11 +157,16 @@
     let chosenFighterName = chosenFighterNum == 1 ? fightObj['fighterA'] :
                                                     fightObj['fighterB'];
 
+    let chosenOdd = chosenFighterNum == 1 ? fightObj['oddA'] : fightObj['oddB']
+
     // create json obj to post to server
     let fight = {
       fighter: chosenFighterName,
-      betAmount: betAmount
+      betAmount: betAmount,
+      odd: chosenOdd
     };
+
+    console.log(fight)
 
     $.post('/createBet/' + fightID,
           fight,
