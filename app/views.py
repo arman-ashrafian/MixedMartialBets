@@ -213,7 +213,7 @@ def profile():
                 bets_pending.append(bet)
                 fights_pending.append(fight)
 
-        accountBalance = userQuery.balance + sum(payouts)
+        accountBalance = userQuery.balance
 
         return render_template('profilePage.html', logged_in=loggedIn,
                                user_name=user, account_balance=accountBalance,
