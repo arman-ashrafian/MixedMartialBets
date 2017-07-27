@@ -26,43 +26,31 @@ from app import views, models, scraper
 
 def updateDatabase():
     print("Running Database Update")
+
     fights = scraper.getFights()
 
-    # fights == None if no datafram in foxsports
-    if fights != None:
+    # RETURN if no fights were scraped
+    if fights == None: return
 
-        today = datetime.datetime.now()
+    # get fights in database
+    dbFights = models.Fight.query.all()
 
-        dbFights = models.Fight.query.all()
-
-        fightDate = datetime.datetime.strptime(dbFights[len(dbFights)-1].date[0:-1], '%m-%d-%Y')
-
-
-        if(today <= fightDate):
-        # Update the current fights
-            for fight in fights:
-                fightQuery = models.Fight.query.filter(and_(models.Fight.fighterA == fight.fighterA,
-                                                            models.Fight.fighterB == fight.fighterB)).first()
-                if(fightQuery):
-                    if(fight.oddA != fightQuery.oddA):
-                        fightQuery.oddA = fight.oddA
-                    if(fight.oddB != fightQuery.oddB):
-                        fightQuery.oddB = fight.oddB
-                    print("Updated the Database: " + str(fight))
-
-
-        else:
-        # add new fights to database
+    for fight in fights:
+        update = False
+        for dbFight in dbFights:
+            if fight.event == dbFight.event and fight.fighterA == dbFight.fighterA and fight.fighterB == dbFight.fighterB:
+                # update fight odds
+                dbFight.oddA = fight.oddA
+                dbFight.oddB = fight.oddB
+                print("Updated Odds")
+                update = True
+        if not update:
+            # add new fight to db
             try:
-                for fight in fights:
-                    db.session.add(fight)
+                db.session.add(fight)
             except:
-                print("Error Adding to Database")
-
-        db.session.commit()
-
-
-
+                print("Error adding to databse")
+    db.session.commit()
 
 # Runs on background thread
 def runBackgroundThread():
@@ -78,4 +66,4 @@ def scheduleTask():
     t.start()
     print("Starting Background Task")
 
-# scheduleTask() # -- starts background thread
+scheduleTask() # -- starts background thread
