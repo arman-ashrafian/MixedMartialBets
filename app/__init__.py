@@ -56,6 +56,7 @@ def updateDatabase():
 def runBackgroundThread():
     while True:
         schedule.run_pending()
+        time.sleep(1)
 
 # Database-update task set up
 def scheduleTask():
