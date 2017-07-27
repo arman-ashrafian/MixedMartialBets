@@ -1,10 +1,16 @@
+# Add result
+# Run this script to add fight results
+# User balances will be updated with winnings
+
 from app import models
 from app import db
 from sqlalchemy import and_
 
 def main():
+    # get all pending fights
     fights = models.Fight.query.filter_by(result=0)
 
+    # get the pending events
     events = []
     latestEvent = ""
     for fight in fights:
@@ -12,14 +18,18 @@ def main():
             events.append(fight.event)
             latestEvent = fight.event
 
+    # display pending events
     i = 1
     for ev in events:
         print("%d. %s" % (i, ev))
 
+    # user's choice for event
     eventChoice = int(input("Which event do you have result for? "))
 
+    # query fights pending fights for that event
     fights = models.Fight.query.filter_by(event=fight.event, result=0)
 
+    # adding fight results to database
     bets = []
     results = []
     fightList = []
@@ -34,6 +44,7 @@ def main():
     db.session.commit()
 
 
+    # add payout to user accounts
     for fight in fightList:
         for bet in bets:
             if not bet: break
