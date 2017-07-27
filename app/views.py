@@ -41,7 +41,7 @@ def index():
 
     # get latest fights
     for fight in dbFights:
-        if(fight.date == latestDate):
+        if(fight.event == eventName):
             fights.append(fight)
 
     loggedIn = currentUser != None #-- true if user is logged in
@@ -124,20 +124,28 @@ def signInUser():
                 # incorrect login
                 return render_template('login.html', incorrect_login=True)
 
-@app.route('/placebets')
-def placeBets():
+@app.route('/placebets/<int:event>')
+def placeBets(event):
     user = getCurrentUser()
     loggedIn = user != None
     allFights = models.Fight.query.all()
-    eventName = allFights[-1].event
+
+    events = []
+    for fight in allFights:
+        if fight.result == 0 and not fight.event in events:
+            events.append(fight.event)
+    print(events)
+
+    eventName = events[event-1]
 
     fights = []
     for fight in allFights:
-        if(fight.event == eventName):
+        if fight.event == eventName:
             fights.append(fight)
 
     return render_template('placeBets.html', event_name=eventName,
-                           fights=fights, user_name=user, logged_in=loggedIn)
+                           fights=fights, user_name=user, logged_in=loggedIn,
+                           other_events=events)
 
 
 

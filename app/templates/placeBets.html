@@ -4,9 +4,11 @@
 <div class="container">
 
   <ul id="dropdown2" class="dropdown-content">
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li><a href="#!">three</a></li>
+
+    {% for event in other_events %}
+    <li><a href="/placebets/{{loop.index}}">{{event}}</a></li>
+    {% endfor %}
+
   </ul>
   <a class="btn dropdown-button red darken-4" data-activates="dropdown2">More Events<i class="material-icons right">arrow_drop_down</i></a>
 
