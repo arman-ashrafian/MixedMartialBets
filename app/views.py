@@ -210,9 +210,13 @@ def profile():
                 if fight.result == 1:
                     if bet.fighter == fight.fighterA:
                         payouts.append(calcPayout(fight.oddA, bet.amount))
+                    else:
+                        payouts.append(0)
                 elif fight.result == 2:
                     if bet.fighter == fight.fighterB:
                         payouts.append(calcPayout(fight.oddB, bet.amount))
+                    else:
+                        payouts.append(0)
 
         # get pending bets & fights
         bets_pending = []

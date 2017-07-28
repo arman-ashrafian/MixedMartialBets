@@ -22,12 +22,13 @@ def main():
     i = 1
     for ev in events:
         print("%d. %s" % (i, ev))
+        i += 1
 
     # user's choice for event
     eventChoice = int(input("Which event do you have result for? "))
 
     # query fights pending fights for that event
-    fights = models.Fight.query.filter_by(event=fight.event, result=0)
+    fights = models.Fight.query.filter_by(event=events[eventChoice-1], result=0)
 
     # adding fight results to database
     bets = []
