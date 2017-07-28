@@ -35,8 +35,7 @@ def index():
     dbFights = models.Fight.query.all()
     fights = []
 
-    # use date to get upcoming fights
-    latestDate = dbFights[len(dbFights) - 1].date
+    # get newest event name
     eventName = dbFights[len(dbFights) - 1].event # -- pass to template
 
     # get latest fights
@@ -134,7 +133,6 @@ def placeBets(event):
     for fight in allFights:
         if fight.result == 0 and not fight.event in events:
             events.append(fight.event)
-    print(events)
 
     eventName = events[event-1]
 

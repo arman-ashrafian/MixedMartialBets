@@ -19,6 +19,7 @@
 
 {% for fight in fights %}
 <!-- Fight Card -->
+  {% if fight.result == 0 %}
   <div class="card grey lighten-2 z-depth-2">
 
     <div class="container">
@@ -77,6 +78,7 @@
     </div>
   </div><br><br>
 <!-- END OF FIGHT CARD -->
+{% endif %}
 {% endfor %}
 
 <!-- NOT LOGGED IN Modal Structure -->

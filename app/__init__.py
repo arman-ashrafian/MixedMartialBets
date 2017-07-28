@@ -61,7 +61,7 @@ def runBackgroundThread():
 # Database-update task set up
 def scheduleTask():
     # update database every 10 seconds
-    schedule.every(1).minutes.do(updateDatabase)
+    schedule.every(30).minutes.do(updateDatabase)
 
     t = Thread(target=runBackgroundThread)
     t.start()
