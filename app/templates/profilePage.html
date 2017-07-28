@@ -23,7 +23,11 @@
             <td>{{fight.date}}</td>
             <td>{{fight}}</td>
             <td>{{bet.fighter}}</td>
-            <td>{{bet.odd}}</td>
+            {% if bet.odd > 0 %}
+              <td>+{{bet.odd}}</td>
+            {% else %}
+              <td>{{bet.odd}}</td>
+            {% endif %}
             <td>$ {{bet.amount}}</td>
           </tr>
 
@@ -53,9 +57,20 @@
             <td>{{fight.date}}</td>
             <td>{{fight}}</td>
             <td>{{bet.fighter}}</td>
-            <td>{{bet.odd}}</td>
+
+            {% if bet.odd > 0 %}
+              <td>+{{bet.odd}}</td>
+            {% else %}
+              <td>{{bet.odd}}</td>
+            {% endif %}
+
             <td>${{bet.amount}}</td>
-            <td>${{'%.2f' % payout}}</td>
+
+            {% if payout == 0 %}
+            <td><b>NONE</b></td>
+            {% else %}
+            <td><b>${{'%.2f' % payout}}</b></td>
+            {% endif %}
           </tr>
 
         {% endfor %}
