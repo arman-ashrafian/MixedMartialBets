@@ -35,12 +35,12 @@ def index():
     dbFights = models.Fight.query.all()
     fights = []
 
-    # get newest event name
+    # get newest event name WITH RESULTS
     for fight in dbFights:
         if fight.result != 0:
             eventName = fight.event
 
-    # get latest fights
+    # get latest fights WITH RESULTS
     for fight in dbFights:
         if(fight.event == eventName):
             fights.append(fight)
@@ -48,7 +48,7 @@ def index():
     loggedIn = currentUser != None #-- true if user is logged in
 
     return render_template('index.html', fights=fights, event_name=eventName,
-                           logged_in=loggedIn)
+                           logged_in=loggedIn, user_name=currentUser)
 
 @app.route('/signup')
 def signUp():

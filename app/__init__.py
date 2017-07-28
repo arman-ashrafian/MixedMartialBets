@@ -67,4 +67,4 @@ def scheduleTask():
     t.start()
     print("Starting Background Task")
 
-scheduleTask() # -- starts background thread
+# scheduleTask() # -- starts background thread

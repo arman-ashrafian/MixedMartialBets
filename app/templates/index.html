@@ -36,6 +36,7 @@
           <div class="divider black"></div>
         </li>
         {% if logged_in %}
+        <li><a>Wussuh, {{user_name}}!</a></li>
         <li><a href="/logout"><i class="small material-icons">input</i>Logout</a></li>
         {% else %}
         <li><a href="/login"><i class="small material-icons">perm_identity</i>Sign In</a></li>
