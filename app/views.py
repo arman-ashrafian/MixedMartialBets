@@ -36,7 +36,9 @@ def index():
     fights = []
 
     # get newest event name
-    eventName = dbFights[len(dbFights) - 1].event # -- pass to template
+    for fight in dbFights:
+        if fight.result != 0:
+            eventName = fight.event
 
     # get latest fights
     for fight in dbFights:
