@@ -233,7 +233,8 @@ def profile():
         return render_template('profilePage.html', logged_in=loggedIn,
                                user_name=user, account_balance=accountBalance,
                                completed_bets=zip(bets_completed, fights_completed, payouts),
-                               pending_bets=zip(bets_pending, fights_pending))
+                               pending_bets=zip(bets_pending, fights_pending),
+                               completed_length=len(bets_completed), pending_length=len(bets_pending))
 
 def getCurrentUser():
     currentUser = None

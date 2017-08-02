@@ -6,10 +6,11 @@
   <h3>Account Balance: <b>${{'%.2f' % account_balance}}</b></h3>
 
 
-  <h5 class="left-align flow-text">PENDING BETS</h5>
+  <h5 class="left-align flow-text">PENDING BETS ({{pending_length}})</h5>
+  {% if pending_length > 0 %}
   <div class="grey lighten-2 black-text z-depth-4">
     <table class="responsive-table bordered">
-      <thead class="red-text">
+      <thead class="black-text">
         <th>Fight Date</th>
         <th>Fight</th>
         <th>Fighter</th>
@@ -36,13 +37,15 @@
 
     </table>
   </div>
+  {% endif %}
 
   <br><br>
 
-  <h5 class="left-align flow-text">COMPLETED BETS</h5>
+  <h5 class="left-align flow-text">COMPLETED BETS ({{completed_length}})</h5>
+  {% if completed_length > 0 %}
   <div class="grey lighten-2 black-text z-depth-4">
     <table class="responsive-table bordered">
-      <thead class="red-text">
+      <thead class="black-text">
         <th>Fight Date</th>
         <th>Fight</th>
         <th>Fighter</th>
@@ -78,6 +81,7 @@
 
     </table>
   </div>
+  {% endif %}
 
 <div style="height:100px;"></div>
 
