@@ -4,13 +4,8 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import and_
 from flask_admin import Admin
 import os
-import schedule
-from threading import Thread
-import datetime
-import time
 
 app = Flask(__name__)
 
