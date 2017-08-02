@@ -74,12 +74,14 @@ def registerUser():
         if not request.form['username'] or not request.form['email'] or not request.form['password']:
             return jsonify(status='bad', error='empty_form')
 
+        elif not '@' in request.form['email']:
+            return jsonify(status='bad', error='info', illegal_email='True')
         else:
             # check if email/username already exists in database
             emailQuery = models.User.query.filter_by(email=request.form['email']).first()
             nameQuery = models.User.query.filter_by(name=request.form['username']).first()
 
-            if (not emailQuery and not nameQuery):
+            if not emailQuery and not nameQuery:
                 # add User to database
                 newUser = models.User(request.form['username'], request.form['email'], request.form['password'], 1000)
 
