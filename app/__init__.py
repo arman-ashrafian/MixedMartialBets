@@ -16,3 +16,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'supersecretkey'
 db = SQLAlchemy(app)
 admin = Admin(app)
+
+from app import views, models
