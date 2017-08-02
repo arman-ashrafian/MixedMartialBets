@@ -1,7 +1,7 @@
 # Scrape fight data from www.bestfightodds.com
 import bs4 as bs
 import urllib.request
-from app import models
+from app import models, db
 
 def getFights():
     url = "https://www.bestfightodds.com/"
@@ -54,5 +54,31 @@ def getFights():
 
     return fightObjects
 
+def updateDatabase(fights):
+    print("Running Database Update")
+
+    # RETURN if no fights were scraped
+    if fights == None: return
+
+    # get fights in database
+    dbFights = models.Fight.query.all()
+
+    for fight in fights:
+        update = False
+        for dbFight in dbFights:
+            if fight.event == dbFight.event and fight.fighterA == dbFight.fighterA and fight.fighterB == dbFight.fighterB:
+                # update fight odds
+                dbFight.oddA = fight.oddA
+                dbFight.oddB = fight.oddB
+                print("Updated Odds")
+                update = True
+        if not update:
+            # add new fight to db
+            try:
+                db.session.add(fight)
+            except:
+                print("Error adding to databse")
+    db.session.commit()
+
 if __name__ == '__main__':
-    getFights()
+    updateDatabase(getFights())

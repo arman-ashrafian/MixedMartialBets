@@ -2,7 +2,6 @@
 # - routes and template rendering
 
 from app import app
-from app import scraper
 from app import db
 from app import models
 from app import admin
