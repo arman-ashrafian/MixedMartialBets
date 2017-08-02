@@ -41,7 +41,7 @@
     <br />
     <center>
       <div class='row center-align' id="buttonDiv">
-        <button class='col s12 btn btn-large waves-effect red darken-2 black-text' onclick="submitForm()">
+        <button type="submit" class='col s12 btn btn-large waves-effect red darken-2 black-text' onclick="submitForm()">
             Register</button>
       </div>
     </center>
@@ -79,8 +79,8 @@
                     if(data['email'] === 'True') {
                       $('#registerCard').append('<h5 class="error_message">Email already in use!</h5>');
                     }
-                    if(data['name'] === 'True') {
-                      $('#registerCard').append('<h5 class="error_message">Username has been taken!</h5>');
+                    if(data['illegal_email'] === 'True') {
+                      $('#registerCard').append('<h5 class="error_message">Invalid Email!</h5>');
                     }
                   }
                 }
