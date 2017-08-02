@@ -81,4 +81,6 @@ def updateDatabase(fights):
     db.session.commit()
 
 if __name__ == '__main__':
-    updateDatabase(getFights())
+    # updateDatabase(getFights())
+    for fight in getFights():
+        print(fight)
