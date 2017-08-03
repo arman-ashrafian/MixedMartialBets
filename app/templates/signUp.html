@@ -4,47 +4,50 @@
 
 
   <div class="z-depth-4 grey lighten-2 row" id="registerCard">
-    <div class='row'>
-      <div class='col s12'>
+
+    <form class="col s12">
+      <div class='row'>
+        <div class='col s12'>
+        </div>
       </div>
-    </div>
 
-    <div class='row'>
-      <div class='input-field col s12'>
-        <input class='validate' type='email' name='email' id='email' />
-        <label for='email'>Enter your email</label>
+      <div class='row'>
+        <div class='input-field col s12'>
+          <input class='validate' type='email' name='email' id='email' />
+          <label for='email'>Enter your email</label>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="input-field col s12">
-        <input type="text" id="username" class="validate" name="username" />
-        <label for="username">Enter your username</label>
+      <div class="row">
+        <div class="input-field col s12">
+          <input type="text" id="username" class="validate" name="username" />
+          <label for="username">Enter your username</label>
+        </div>
       </div>
-    </div>
 
-    <div class='row'>
-      <div class='input-field col s12'>
-        <input class='validate' type='password' name='password' id='password' />
-        <label for='password'>Enter your password</label>
+      <div class='row'>
+        <div class='input-field col s12'>
+          <input class='validate' type='password' name='password' id='password' />
+          <label for='password'>Enter your password</label>
+        </div>
       </div>
-    </div>
 
-    <div class='row'>
-      <div class='input-field col s12'>
-        <input class='validate' type='password' name="password-confirm" id='password-confirm' />
-        <label for='password-confirm'>Password Confirmation</label>
+      <div class='row'>
+        <div class='input-field col s12'>
+          <input class='validate' type='password' name="password-confirm" id='password-confirm' />
+          <label for='password-confirm'>Password Confirmation</label>
+        </div>
       </div>
-    </div>
 
 
-    <br />
-    <center>
-      <div class='row center-align' id="buttonDiv">
-        <button type="submit" class='col s12 btn btn-large waves-effect red darken-2 black-text' onclick="submitForm()">
+      <br />
+      <center>
+        <div class='row center-align' id="buttonDiv">
+          <button type="submit" class='col s12 btn btn-large waves-effect red darken-2 black-text' onclick="submitForm()">
             Register</button>
-      </div>
-    </center>
+        </div>
+      </center>
+    </form>
   </div>
 </div>
 
@@ -55,39 +58,37 @@
     const passwordInput = $('#password').val()
     const passwordConfirm = $('#password-confirm').val()
 
-    if(passwordInput != passwordConfirm) {
+    if (passwordInput != passwordConfirm) {
       $('#password').val('');
       $('#password-confirm').val('');
       alert("Passwords do not match");
     } else {
-      $.post('/registerUser',
-              {
-                email: emailInput,
-                username: usernameInput,
-                password: passwordInput
-              },
-              function(data) {
-                console.log(data);
+      $.post('/registerUser', {
+          email: emailInput,
+          username: usernameInput,
+          password: passwordInput
+        },
+        function(data) {
+          console.log(data);
 
-                if(data['status'] === 'ok') {
-                  window.location.replace('/');
-                } else {
+          if (data['status'] === 'ok') {
+            window.location.replace('/');
+          } else {
 
-                  if(data['error'] === 'empty_form') {
-                    $('#registerCard').append('<h5 class="error_message">Form cannot be empty!</h5>');
-                  } else {
-                    if(data['email'] === 'True') {
-                      $('#registerCard').append('<h5 class="error_message">Email already in use!</h5>');
-                    }
-                    if(data['illegal_email'] === 'True') {
-                      $('#registerCard').append('<h5 class="error_message">Invalid Email!</h5>');
-                    }
-                  }
-                }
-              });
+            if (data['error'] === 'empty_form') {
+              $('#registerCard').append('<h5 class="error_message">Form cannot be empty!</h5>');
+            } else {
+              if (data['email'] === 'True') {
+                $('#registerCard').append('<h5 class="error_message">Email already in use!</h5>');
+              }
+              if (data['illegal_email'] === 'True') {
+                $('#registerCard').append('<h5 class="error_message">Invalid Email!</h5>');
+              }
+            }
+          }
+        });
     }
   }
-
 </script>
 
 <style>
