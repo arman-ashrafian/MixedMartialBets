@@ -17,3 +17,31 @@ database with the betting odds for upcoming fights
   * `views.py` - contains the logic "business logic" for each route 
   * `templates/` - frontend of the application
   
+
+### Screenshots
+
+#### home 
+![home](https://github.com/arman-ashrafian/MixedMartialBets/blob/master/screenshots/home_page.png)
+#### place bets
+![place bets](https://github.com/arman-ashrafian/MixedMartialBets/blob/master/screenshots/place_bets.png)
+#### profile
+![profile](https://github.com/arman-ashrafian/MixedMartialBets/blob/master/screenshots/profile.png)
+
+
+### Run Locally
+
+* start venv
+```
+source ven/bin/activate
+```
+* create database
+```
+$ python3 
+>>> from app import db
+>>> db.create_all()
+>>> db.session.commit()
+```
+* start web server
+```
+$ python3 run.py
+```
