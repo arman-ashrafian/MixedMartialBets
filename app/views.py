@@ -33,6 +33,7 @@ def index():
     currentUser = getCurrentUser()
     dbFights = models.Fight.query.all()
     fights = []
+    eventName = ""
 
     # get newest event name WITH RESULTS
     for fight in dbFights:
